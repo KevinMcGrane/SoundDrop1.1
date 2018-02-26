@@ -24,6 +24,7 @@ public class User {
     private String bio;
     private List<Track> tracks;
     private List<Playlist> playlist;
+    private ProfilePic profilePic;
     
 
 
@@ -105,6 +106,14 @@ public class User {
 		this.postTexts = postTexts;
 	}
 	
+	@OneToOne
+	public ProfilePic getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(ProfilePic profilePic) {
+		this.profilePic = profilePic;
+	}
 
 	public String getBio() {
 		return bio;

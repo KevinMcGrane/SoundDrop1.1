@@ -2,6 +2,7 @@ package sounddrop.web;
 
 import sounddrop.model.PostText;
 import sounddrop.model.User;
+import sounddrop.service.AmazonClient;
 import sounddrop.service.PostTextService;
 import sounddrop.service.SecurityService;
 import sounddrop.service.UserService;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/settings")
@@ -30,6 +33,8 @@ public class SettingsController {
 
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserService userService;
+    private AmazonClient amazonClient;
+
 
 	@Autowired
 	public SettingsController(BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) {
@@ -71,6 +76,15 @@ public class SettingsController {
 		return "redirect:/settings?bio_success";
 	}
 
+	 @RequestMapping(value="profilepic", method = RequestMethod.POST)
+	    public String addProfilePic(@RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
+	        
+	        String name = principal.getName(); 
+	        this.amazonClient.uploadPic(file, name);
+	        
+	        return "redirect:/welcome";
+	    }
+	  
 /*	@RequestMapping(value = "/password", method = RequestMethod.POST)
 	public String password(@ModelAttribute PasswordSettings passwordSettings, Model model, Principal principal,
 			User user, BCryptPasswordEncoder bCryptPasswordEncoder, BindingResult bindingResult) {
@@ -89,7 +103,6 @@ public class SettingsController {
 		private String bio;
 		private String fname;
 		private String lname;
-		
 
 		public String getFname() {
 			return fname;

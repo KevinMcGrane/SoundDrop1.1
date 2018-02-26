@@ -48,8 +48,14 @@
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
 					<div class="form-group">
+					<form enctype="multipart/form-data" method="post"
+					action="${contextPath}/settings/profilepic?${_csrf.parameterName}=${_csrf.token}">
+					<input type="file" name="file"><button type="submit" class="btn btn-primary" value="Save">Submit</button>
+					</form>
 						<form:form action="${contextPath}/settings/bio" method="post"
 							modelAttribute="bioSettings">
+							Profile Pic:<br>
+							
 										First Name:<br>
 							<input type="text" value="${user.fname}" name="fname">
 							<br>

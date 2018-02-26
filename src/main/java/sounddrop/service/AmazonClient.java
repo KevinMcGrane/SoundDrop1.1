@@ -39,6 +39,11 @@ public class AmazonClient {
     
     @Autowired
     private GenreService genreService;
+    
+    @Autowired
+    private ProfilePicService picService;
+    
+    
 
     @Value("${aws.endpoint_url}")
     private String endpointUrl;
@@ -74,11 +79,31 @@ public class AmazonClient {
             List<Genre> list = genreService.getAllGenre();
             if (genreService.containsName(list, genre)){
             	System.out.println("present");
+            	
             }else {
             	System.out.println("Not Present");
+            	genreService.save(genre);
             }
-            genreService.save(genre);
+            
             trackService.save(track, name, fileName);
+            
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return fileUrl;
+    }
+    
+    public String uploadPic(MultipartFile multipartFile, String name) {
+        String fileUrl = "";
+        try {
+            File file = convertMultiPartToFile(multipartFile);
+            String fileName = generateFileName(multipartFile);
+            System.out.println(fileName);
+            fileUrl = endpointUrl + "/" + "sounddrop-profilepic-bucket" + "/" + fileName;
+            uploadFileTos3bucket(fileName, file);
+            file.delete();       
+            picService.save(fileName, name);
+            
         } catch (Exception e) {
            e.printStackTrace();
         }

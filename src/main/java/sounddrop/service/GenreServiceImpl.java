@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sounddrop.model.Genre;
+import sounddrop.model.User;
 import sounddrop.repository.GenreRepository;
 
 @Service
@@ -25,6 +26,11 @@ public class GenreServiceImpl implements GenreService {
 	public List<Genre> getAllGenre(){
 		return genreRepository.findAll();
 	}
+	
+	@Override
+	 public Genre findGenreByName(String name) {
+	    	return genreRepository.findByName(name);
+	    }
 	
 	@Override
 	public boolean containsName(final List<Genre> list, final String name){

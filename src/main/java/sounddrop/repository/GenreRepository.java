@@ -6,5 +6,6 @@ import sounddrop.model.Genre;
 import sounddrop.model.PostText;
 
 public interface GenreRepository extends JpaRepository<Genre, Long>{
+	Genre findByName(String name);
 	
 }

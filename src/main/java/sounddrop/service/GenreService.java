@@ -3,6 +3,7 @@ package sounddrop.service;
 import java.util.List;
 
 import sounddrop.model.Genre;
+import sounddrop.model.User;
 
 public interface GenreService {
 
@@ -11,4 +12,6 @@ public interface GenreService {
 	List<Genre> getAllGenre();
 	
 	boolean containsName(List<Genre> list, String name);
+
+	Genre findGenreByName(String name);
 }
