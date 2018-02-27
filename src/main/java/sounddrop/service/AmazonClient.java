@@ -47,8 +47,10 @@ public class AmazonClient {
 
     @Value("${aws.endpoint_url}")
     private String endpointUrl;
-    @Value("${aws.bucket_name}")
-    private String bucketName;
+    @Value("${aws.track_bucket_name}")
+    private String trackBucketName;
+    @Value("${aws.pic_bucket_name}")
+    private String picBucketName;
     @Value("${aws.access_key}")
     private String accessKey;
     @Value("${aws.secret_key}")
@@ -73,7 +75,7 @@ public class AmazonClient {
 	        System.out.println(durationInSeconds/60);
             String fileName = generateFileName(multipartFile);
             System.out.println(fileName);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            fileUrl = endpointUrl + "/" + trackBucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
             List<Genre> list = genreService.getAllGenre();
@@ -99,10 +101,10 @@ public class AmazonClient {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
             System.out.println(fileName);
-            fileUrl = endpointUrl + "/" + "sounddrop-profilepic-bucket" + "/" + fileName;
-            uploadFileTos3bucket(fileName, file);
+            fileUrl = endpointUrl + "/" + picBucketName + "/" + fileName;
+            uploadPicTos3bucket(fileName, file);
             file.delete();       
-            picService.save(fileName, name);
+            picService.save(name, fileName);
             
         } catch (Exception e) {
            e.printStackTrace();
@@ -123,13 +125,24 @@ public class AmazonClient {
     }
 
     private void uploadFileTos3bucket(String fileName, File file) {
-        s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
+        s3client.putObject(new PutObjectRequest(trackBucketName, fileName, file)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+    }
+    
+    private void uploadPicTos3bucket(String fileName, File file) {
+        s3client.putObject(new PutObjectRequest(picBucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     public String deleteFileFromS3Bucket(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        s3client.deleteObject(new DeleteObjectRequest(trackBucketName, fileName));
+        return "Successfully deleted";
+    }
+    
+    public String deletePicFromS3Bucket(String fileUrl) {
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+        s3client.deleteObject(new DeleteObjectRequest(picBucketName, fileName));
         return "Successfully deleted";
     }
 

@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setFriends(user.getFriends());
         user.setIncomingFriendRequests(user.getIncomingFriendRequests());
         user.setOutgoingFriendRequests(user.getOutgoingFriendRequests());
+        user.setProfilePic(user.getProfilePic());
         userRepository.save(user);
     }
 

@@ -33,6 +33,7 @@ public class SettingsController {
 
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	private UserService userService;
+	@Autowired
     private AmazonClient amazonClient;
 
 
@@ -57,20 +58,10 @@ public class SettingsController {
 	public String bio(@ModelAttribute BioSettings bioSettings, Model model, Principal principal, User user) {
 		String name = principal.getName();
 		user = userService.findByUsername(name);
-		System.out.println(user.getPassword());
 		user.setBio(bioSettings.getBio());
 		user.setFname(bioSettings.getFname());
 		user.setLname(bioSettings.getLname());
-		//user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		System.out.println("--------------");
-
-		System.out.println(user.getPassword());
-		System.out.println(user);
 		userService.update(user);
-		System.out.println("xxxxxxxxxxxxxxxxx");
-		System.out.println(user.getPassword());
-		System.out.println(user);
-
 		model.addAttribute("user", user);
 
 		return "redirect:/settings?bio_success";

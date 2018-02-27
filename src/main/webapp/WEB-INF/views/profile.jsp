@@ -41,7 +41,7 @@
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="${contextPath}/resources/images/profile_user.jpg"
+					<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
 						class="img-responsive" alt="">
 				</div>
 				<!-- END SIDEBAR USERPIC -->
