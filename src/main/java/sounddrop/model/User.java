@@ -25,6 +25,7 @@ public class User {
     private List<Track> tracks;
     private List<Playlist> playlist;
     private ProfilePic profilePic;
+    private List<Comment> comments;
     
 
 
@@ -104,6 +105,15 @@ public class User {
 
 	public void setPostTexts(List<PostText> postTexts) {
 		this.postTexts = postTexts;
+	}
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	@OneToOne

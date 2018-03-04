@@ -41,8 +41,11 @@
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="${contextPath}/resources/images/profile_user.jpg"
-						class="img-responsive" alt="">
+					<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width:140px;height:120px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive" alt=""></c:otherwise>
+						</c:choose>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -61,59 +64,7 @@
 		</div>
 		<div class="col-md-6">
 			<div id="logbox">
-				<!-- Button trigger modal -->
-				<!-- <button class="btn btn-primary btn-lg" data-toggle="modal"
-						data-target="#myModal">New Post</button>-->
-				<input type="text" data-target="#myModal" data-toggle="modal"
-					class="form-control1" placeholder="New Post" />
-
-				<form:form commandName="postTextForm">
-					<!-- Modal -->
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-						aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">&times;</button>
-									<h4 class="modal-title" id="myModalLabel">New post</h4>
-								</div>
-								<div class="modal-body">
-									<div class="form-group">
-										<label for="content" class="col-sm-2 control-label">Content:</label>
-										<div class="col-sm-10">
-											<form:input path="content" cssClass="form-control" />
-											<form:errors path="content" />
-										</div>
-									</div>
-
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">Close</button>
-									<input type="submit" class="btn btn-primary" value="Save" />
-								</div>
-							</div>
-						</div>
-					</div>
-				</form:form>
-				<br></br>
-
 				<div class="panel-group">
-
-					<!--<c:forEach items="${user.outgoingFriendRequests}" var="outgoingFriendRequests">
-							<div class="panel panel-default">
-								<div class="panel-body">${outgoingFriendRequests.id}</div>
-								
-							</div>
-						</c:forEach>
-						<c:forEach items="${user.incomingFriendRequests}" var="incomingFriendRequests">
-							<div class="panel panel-default">
-								<div class="panel-body">${incomingFriendRequests.id}</div> 
-								
-							</div>
-						</c:forEach>-->
-
 					<c:forEach items="${user.postTexts}" var="postText">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -192,10 +143,7 @@
 									class="glyphicon glyphicon-user"></i> Account Settings
 							</a></li>
 							<li><a href="#" target="_blank"> <i
-									class="glyphicon glyphicon-ok"></i> Tasks
-							</a></li>
-							<li><a href="#"> <i class="glyphicon glyphicon-flag"></i>
-									Help
+									class="glyphicon glyphicon-ok"></i> Discover
 							</a></li>
 						</ul>
 					</div>
@@ -204,9 +152,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
 	<!-- /container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

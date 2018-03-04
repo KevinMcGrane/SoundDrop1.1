@@ -56,7 +56,11 @@
 								<div class="panel-body">
 												<div class="profile-userpic">
 												<a href=${contextPath}/user/${user.username}>
-					<img src="${contextPath}/resources/images/profile_user.jpg" class="img-responsive" align="left" alt="" style="width:50px;height:50px;"></a>
+					<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:otherwise>
+						</c:choose></a>
 				</div>
 				<div class="profile-usertitle">
 				<a href=${contextPath}/user/${user.username}>

@@ -175,8 +175,12 @@ public class UserController {
     	int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
     	model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("currentUser", currentUser);
+		if (name.equals(username)) {
+			return account(model, principal);
+		}else {
 	
 		return "profile";
+		}
     }
    
 //   @RequestMapping(value="user/add/{username}", method=RequestMethod.GET)

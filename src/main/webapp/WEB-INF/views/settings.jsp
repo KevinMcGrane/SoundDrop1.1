@@ -40,8 +40,11 @@
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="${contextPath}/resources/images/profile_user.jpg"
-						class="img-responsive" alt="">
+				<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width:140px;height:120px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive" alt=""></c:otherwise>
+						</c:choose>
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -112,29 +115,18 @@
 				<div class="profile-sidebar">
 					<!-- SIDEBAR MENU -->
 					<div class="profile-usermenu">
-					<ul class="nav">
-						<li>
-							<a href="${contextPath}/welcome">
-							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
-						</li>
-						<li class="active">
-							<a href="${contextPath}/settings">
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							Help </a>
-						</li>
-					</ul>
-				</div>
+						<ul class="nav">
+							<li class="active"><a href="${contextPath}/welcome"> <i
+									class="glyphicon glyphicon-home"></i> Home
+							</a></li>
+							<li><a href="${contextPath}/settings"> <i
+									class="glyphicon glyphicon-user"></i> Account Settings
+							</a></li>
+							<li><a href="#" target="_blank"> <i
+									class="glyphicon glyphicon-ok"></i> Discover
+							</a></li>
+						</ul>
+					</div>
 					<!-- END MENU -->
 				</div>
 			</div>
