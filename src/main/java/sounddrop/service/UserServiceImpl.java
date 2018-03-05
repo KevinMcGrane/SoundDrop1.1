@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
         user.setRoles(new HashSet<>(roleRepository.findAll()));
         user.setFname(user.getFname());
         user.setLname(user.getLname());
-        user.setFriends(user.getFriends());
         userRepository.save(user);
     }
     
@@ -53,6 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setIncomingFriendRequests(user.getIncomingFriendRequests());
         user.setOutgoingFriendRequests(user.getOutgoingFriendRequests());
         user.setProfilePic(user.getProfilePic());
+        user.setComments(user.getComments());
         userRepository.save(user);
     }
 

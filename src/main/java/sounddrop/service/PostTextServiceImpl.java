@@ -46,6 +46,7 @@ public class PostTextServiceImpl implements PostTextService {
         postText.setContent(postText.getContent()); 
         postText.setPublishTime(timestamp);
 		postText.setUser(user);
+		postText.setComments(postText.getComments());
         postTextRepository.save(postText);
     }
 

@@ -51,7 +51,7 @@
 		</div>
 
 
-		<div class="col-lg-4">
+		<div class="col-lg-5">
 			<div id="logbox">
 				<div class="col-lg-6">
 					<!-- Button trigger modal -->
@@ -171,6 +171,15 @@
 											type="submit" class="btn btn-failure btn-sm">Delete</button>
 									</form:form>
 								</c:if>
+								<form:form
+										action="${contextPath}/comment/${postText.postTextId}"
+										method="get">
+										<c:choose><c:when test="${empty postText.comments}"><button
+											type="submit" class="btn btn-failure btn-sm">Comment</button></c:when>
+											<c:otherwise><button
+											type="submit" class="btn btn-failure btn-sm">View ${count} Comments</button></c:otherwise></c:choose>
+										
+									</form:form>
 							</div>
 
 						</div>
@@ -180,28 +189,10 @@
 
 			</div>
 		</div>
-		<div class="row profile">
 			<div class="col-md-3">
-				<div class="profile-sidebar">
-					<!-- SIDEBAR MENU -->
-					<div class="profile-usermenu">
-						<ul class="nav">
-							<li class="active"><a href="${contextPath}/welcome"> <i
-									class="glyphicon glyphicon-home"></i> Home
-							</a></li>
-							<li><a href="${contextPath}/settings"> <i
-									class="glyphicon glyphicon-user"></i> Account Settings
-							</a></li>
-							<li><a href="#" target="_blank"> <i
-									class="glyphicon glyphicon-ok"></i> Discover
-							</a></li>
-						</ul>
-					</div>
-					<!-- END MENU -->
-				</div>
+				<jsp:include page="sidebar.jsp"></jsp:include>
 			</div>
 		</div>
-	</div>
 	<!-- /container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

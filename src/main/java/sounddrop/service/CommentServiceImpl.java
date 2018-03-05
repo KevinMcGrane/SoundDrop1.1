@@ -15,24 +15,20 @@ import sounddrop.repository.UserRepository;
 @Service
 public class CommentServiceImpl implements CommentService{
 	
-	@Autowired
-    private PostTextService postTextService;
+
 
     @Autowired
     private CommentRepository commentRepository;
-    
-    @Autowired
-    private UserService userService;
+
     
 	
 	@Override
-    public void save(Comment comment, String name, PostText post) {
-		User user = userService.findByUsername(name);
+    public void save(Comment comment, User user, PostText post) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         comment.setContent(comment.getContent()); 
         comment.setPublishTime(timestamp);
 		comment.setUser(user);
+		comment.setPostText(post);
         commentRepository.save(comment);
     }
-
 }

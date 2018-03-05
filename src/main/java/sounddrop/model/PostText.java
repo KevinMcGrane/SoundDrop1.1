@@ -3,7 +3,9 @@ package sounddrop.model;
 import java.sql.Time;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +30,8 @@ public class PostText {
 	private Date publishTime;
 	
 	private User user;
+	
+	private List<Comment> comments;
 	
 	public PostText(){
 		
@@ -74,6 +79,15 @@ public class PostText {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@OneToMany(mappedBy = "postText", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	 
