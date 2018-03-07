@@ -3,6 +3,7 @@ package sounddrop.web;
 import sounddrop.model.Comment;
 import sounddrop.model.Genre;
 import sounddrop.model.PostText;
+import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.GenreRepository;
 import sounddrop.repository.PostTextRepository;
@@ -10,6 +11,7 @@ import sounddrop.service.CommentService;
 import sounddrop.service.GenreService;
 import sounddrop.service.PostTextService;
 import sounddrop.service.SecurityService;
+import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
 import sounddrop.validator.UserValidator;
 
@@ -39,6 +41,9 @@ public class UserController {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	private TrackService trackService;
 
 	@Autowired
 	private UserValidator userValidator;
@@ -90,6 +95,8 @@ public class UserController {
 		List<PostText> postTextList = postTextService.getFeed(currentUser.getFriends(), principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		List<Track> trackList = trackService.getFriendsTracks(friends);
+		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("postTextForm", new PostText());
 		model.addAttribute("postTextList", postTextList);
@@ -122,7 +129,7 @@ public class UserController {
 	public String getComments(@PathVariable long postTextId, Model model) {
 		PostText postText = postTextService.findByPostTextId(postTextId);
 		int commentsCount = postText.getComments().size();
-		model.addAttribute("count", commentsCount);
+		model.addAttribute("commentCount", commentsCount);
 		model.addAttribute("postText", postText);
 		model.addAttribute("commentForm", new Comment());
 		List<Comment> comments = postText.getComments();

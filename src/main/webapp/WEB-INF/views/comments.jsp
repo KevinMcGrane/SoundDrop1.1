@@ -71,7 +71,7 @@
 					<c:forEach items="${comments}" var="comment"><div class="panel panel-default">
 							<div class="panel-body">
 								<b><a href=${contextPath}/user/${comment.user.username}>${comment.user.fname}
-										${comment.user.lname}</a></b> commented:
+										${comment.user.lname}</a> commented:</b>
 							${comment.content}</div>
 							<div class="panel-footer">${comment.publishTime}
 									

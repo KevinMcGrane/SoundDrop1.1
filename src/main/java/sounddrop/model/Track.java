@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,9 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Track {
+public class Track{
 	private long id;
 	private String trackName;
 	private String fileName;
@@ -24,6 +26,7 @@ public class Track {
 	private Artist artist;
 	private Date publishTime;
 	private List<Playlist> playlists;
+	private List<Comment> comments;
 	
 /*	public Track() {
 		
@@ -98,6 +101,13 @@ public class Track {
 		this.artist = artist;
 	}
 	
+	@OneToMany(mappedBy = "track", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	@ManyToMany(mappedBy = "tracks")
 	public List<Playlist> getPlaylists() {
 		return playlists;

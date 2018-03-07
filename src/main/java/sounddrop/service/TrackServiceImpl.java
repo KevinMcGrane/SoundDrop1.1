@@ -2,6 +2,7 @@ package sounddrop.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +40,11 @@ public class TrackServiceImpl implements TrackService{
 	    	
 	    	return trackList;
 		}
+	 
+	 @Override
+	 public List<Track> getFriendsTracks(Set<User> friends){
+		  List<Track> trackList = trackRepository.findByUserIn(friends);
+		  return trackList;
+	 }
 
 }

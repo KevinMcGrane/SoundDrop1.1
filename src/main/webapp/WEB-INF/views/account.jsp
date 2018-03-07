@@ -1,6 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -78,6 +80,15 @@
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>
 								</form:form>
+								<form:form
+										action="${contextPath}/comment/${postText.postTextId}"
+										method="get" id="commentForm">
+										<c:choose><c:when test="${empty postText.comments}"><button class="btn btn-link"
+											type="submit">Comment</button></c:when>
+											<c:otherwise><button class="btn btn-link"
+											type="submit">View ${fn:length(postText.comments)} Comments</button></c:otherwise></c:choose>
+										
+									</form:form>
 							</div>
 						</div>
 					</c:forEach>

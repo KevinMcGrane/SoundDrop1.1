@@ -30,6 +30,8 @@ public class Comment {
 	
 	private PostText postText;
 	
+	private Track track;
+	
 	public Comment(){
 		
 	}
@@ -88,6 +90,18 @@ public class Comment {
 	public void setPostText(PostText postText) {
 		this.postText = postText;
 	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="track_id")
+	public Track getTrack() {
+		return track;
+	}
+	
+	
+	public void setTrack(Track track) {
+		this.track = track;
+	}
+	
 	
 	 
 	

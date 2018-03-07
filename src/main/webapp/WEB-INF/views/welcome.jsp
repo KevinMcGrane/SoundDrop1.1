@@ -1,6 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -173,15 +174,43 @@
 								</c:if>
 								<form:form
 										action="${contextPath}/comment/${postText.postTextId}"
-										method="get">
-										<c:choose><c:when test="${empty postText.comments}"><button
-											type="submit" class="btn btn-failure btn-sm">Comment</button></c:when>
-											<c:otherwise><button
-											type="submit" class="btn btn-failure btn-sm">View ${count} Comments</button></c:otherwise></c:choose>
+										method="get" id="commentForm">
+										<c:choose><c:when test="${empty postText.comments}"><button class="btn btn-link"
+											type="submit">Comment</button></c:when>
+											<c:otherwise><button class="btn btn-link"
+											type="submit">View ${fn:length(postText.comments)} Comments</button></c:otherwise></c:choose>
 										
 									</form:form>
 							</div>
 
+						</div>
+					</c:forEach>
+					
+					<c:forEach items="${tracklist}" var="track">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<b><a href=${contextPath}/user/${track.user.username}>${track.user.fname}
+										${track.user.lname}</a></b> posted:
+							</div>
+							<div class="panel-body">${track.trackName}<div id="mainwrap">
+									<div id="nowPlay">
+										<span class="center" id="npTitle"></span>
+									</div>
+									<div id="audiowrap">
+										<div id="audio0">
+											<audio preload="auto" id="audio1" controls="controls"><source src="https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/${track.fileName}">
+											</audio>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer">${track.publishTime}
+								<%-- form:form action="${contextPath}/deletepost/${track.id}"
+									method="post">
+									<button name="${_csrf.parameterName}" value="${_csrf.token}"
+										type="submit" class="btn btn-failure btn-sm">Delete</button>
+								</form:form> --%>
+							</div>
 						</div>
 					</c:forEach>
 				</div>

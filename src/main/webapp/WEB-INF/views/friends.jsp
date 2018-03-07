@@ -34,8 +34,7 @@
 
 		<div class="row main">
 			<div class="col-lg-3 description">
-				<h1>Sound Drop</h1>
-				<p class="lead">Welcome!</p>
+				
 			</div>
 			<div class="col-lg-3">
 				<div id="logbox">
@@ -48,9 +47,12 @@
 						<c:forEach items="${friends}" var="user">
 
 							<div class="profile-userpic-friends">
-								<a href=${contextPath}/user/${user.username}> <img
-									src="${contextPath}/resources/images/profile_user.jpg"
-									class="img-responsive" style="width: 50px; height: 50px;"></a>
+								<a href=${contextPath}/user/${user.username}>
+									<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width: 50px; height: 50px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive" style="width: 50px; height: 50px;""></c:otherwise>
+						</c:choose></a>
 							</div>
 							<div class="profile-usertitle-friends">
 								<a href=${contextPath}/user/${user.username}> <b>${user.fname}
@@ -81,7 +83,7 @@
 							</div>
 							<div class="profile-userpic-friends">
 								<a href=${contextPath}/user/${user.username}> <img
-									src="${contextPath}/resources/images/profile_user.jpg"
+									src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/noprofile.png"
 									class="img-responsive" alt=""
 									style="width: 50px; height: 50px;"></a>
 							</div>

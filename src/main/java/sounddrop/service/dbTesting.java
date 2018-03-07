@@ -105,6 +105,14 @@ public class dbTesting {
 	    Genre genre = new Genre();
 	    genre.setName("Techno");
 	    genreRepository.save(genre);
+	    
+	    Genre genre1 = new Genre();
+	    genre1.setName("House");
+	    genreRepository.save(genre1);
+	    
+	    Genre genre2 = new Genre();
+	    genre2.setName("House");
+	    genreRepository.save(genre2);
 	}
 
 }
