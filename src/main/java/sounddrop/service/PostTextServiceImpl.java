@@ -65,11 +65,11 @@ public class PostTextServiceImpl implements PostTextService {
     }
     
     @Override
-    public List<PostText> getFeed(Set<User> friends, String username){
+    public List<PostText> getFeed(Set<User> friends, User user){
     	List<PostText> postTextList = postTextRepository.findByUserIn(friends);
     	List<Track> trackList = trackRepository.findByUserIn(friends);
-    	List<PostText> myPosts = postTextRepository.findByUser(userService.findByUsername(username));
-    	List<Track> myTracks = trackRepository.findByUser(userService.findByUsername(username));
+    	List<PostText> myPosts = postTextRepository.findByUser(user);
+    	List<Track> myTracks = trackRepository.findByUser(user);
     	List<PostText> newList = new ArrayList<PostText>();
     	newList.addAll(myPosts);
     	newList.addAll(postTextList);

@@ -10,6 +10,8 @@ import sounddrop.model.User;
 public interface TrackService {
 	public void save (String track, String name, String fileName);
 	public List<Track> getAllTrack();
-	public List<Track> getFriendsTracks(Set<User> friends);
+	public List<Track> getTrackFeed(Set<User> friends, User user);
+	public void delete(Track track);
+	public Track findByTrackId(long id);
 
 }

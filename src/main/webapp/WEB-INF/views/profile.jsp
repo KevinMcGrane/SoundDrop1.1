@@ -166,7 +166,7 @@
 								</div>
 							</div>
 							<div class="panel-footer">
-								<form:form action="${contextPath}/deletepost/${track.id}"
+								<form:form action="${contextPath}/track/deletetrack/${track.id}"
 									method="post">
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>

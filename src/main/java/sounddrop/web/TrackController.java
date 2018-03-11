@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,6 +54,13 @@ public class TrackController {
 	        
 	        return "redirect:/welcome";
 	    }
+	  
+	  @RequestMapping(value = "/deletetrack/{trackId}", method = RequestMethod.POST)
+		public String doIdDelete(@PathVariable long trackId, Track track) {
+			track = trackService.findByTrackId(trackId);
+			trackService.delete(track);
+			return "redirect:/welcome";
+		}
 	  
 	  @Autowired
 	    TrackController(AmazonClient amazonClient) {

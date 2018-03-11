@@ -92,10 +92,10 @@ public class UserController {
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public String welcome(Model model, Principal principal) {
 		User currentUser = userService.findByUsername(principal.getName());
-		List<PostText> postTextList = postTextService.getFeed(currentUser.getFriends(), principal.getName());
+		List<PostText> postTextList = postTextService.getFeed(currentUser.getFriends(), currentUser);
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = trackService.getFriendsTracks(friends);
+		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("postTextForm", new PostText());

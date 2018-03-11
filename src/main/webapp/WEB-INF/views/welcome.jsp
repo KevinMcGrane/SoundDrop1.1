@@ -205,11 +205,10 @@
 								</div>
 							</div>
 							<div class="panel-footer">${track.publishTime}
-								<%-- form:form action="${contextPath}/deletepost/${track.id}"
-									method="post">
+								 <form:form action="${contextPath}/track/deletetrack/${track.id}" method="post">
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>
-								</form:form> --%>
+								</form:form> 
 							</div>
 						</div>
 					</c:forEach>
