@@ -111,8 +111,12 @@ public class dbTesting {
 	    genreRepository.save(genre1);
 	    
 	    Genre genre2 = new Genre();
-	    genre2.setName("House");
+	    genre2.setName("Tech House");
 	    genreRepository.save(genre2);
+	    
+	    Genre genre3 = new Genre();
+	    genre3.setName("Trance");
+	    genreRepository.save(genre3);
 	}
 
 }

@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sounddrop.model.Genre;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
@@ -26,14 +27,16 @@ public class TrackServiceImpl implements TrackService {
 	TrackRepository trackRepository;
 
 	@Override
-	public void save(String track, String name, String fileName) {
+	public void save(String trackName, String name, String artist, String fileName, Genre genre) {
 		Track newTrack = new Track();
 		User user = userRepository.findByUsername(name);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		newTrack.setTrackName(track);
+		newTrack.setTrackName(trackName);
 		newTrack.setFileName(fileName);
+		newTrack.setArtist(artist);
 		newTrack.setPublishTime(timestamp);
 		newTrack.setUser(user);
+		newTrack.setGenre(genre);
 		trackRepository.save(newTrack);
 	}
 

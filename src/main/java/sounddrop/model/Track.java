@@ -23,7 +23,7 @@ public class Track{
 	private String fileName;
 	private User user;
 	private Genre genre;
-	private Artist artist;
+	private String artist;
 	private Date publishTime;
 	private List<Playlist> playlists;
 	private List<Comment> comments;
@@ -92,12 +92,11 @@ public class Track{
 	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="artist_id")
-	public Artist getArtist() {
+	
+	public String getArtist() {
 		return artist;
 	}
-	public void setArtist(Artist artist) {
+	public void setArtist(String artist) {
 		this.artist = artist;
 	}
 	

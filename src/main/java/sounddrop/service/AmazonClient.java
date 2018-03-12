@@ -64,7 +64,7 @@ public class AmazonClient {
        s3client = AmazonS3ClientBuilder.standard().withRegion(Regions.fromName(region)).withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 }
     
-    public String uploadFile(MultipartFile multipartFile, String track, String name, String genre) {
+    public String uploadFile(MultipartFile multipartFile, String trackName, String name, String artist, Genre genre) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -78,16 +78,8 @@ public class AmazonClient {
             fileUrl = endpointUrl + "/" + trackBucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
-            List<Genre> list = genreService.getAllGenre();
-            if (genreService.containsName(list, genre)){
-            	System.out.println("present");
-            	
-            }else {
-            	System.out.println("Not Present");
-            	genreService.save(genre);
-            }
             
-            trackService.save(track, name, fileName);
+            trackService.save(trackName, name, artist, fileName, genre);
             
         } catch (Exception e) {
            e.printStackTrace();

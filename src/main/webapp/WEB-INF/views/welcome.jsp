@@ -1,7 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +113,7 @@
 									<div class="form-group">
 										<label for="title" class="col-sm-2 control-label">Artist:</label>
 										<div class="col-sm-10">
-											<input name="artist"/>
+											<input name="artist" />
 										</div>
 									</div>
 								</div>
@@ -121,7 +121,7 @@
 									<div class="form-group">
 										<label for="title" class="col-sm-2 control-label">Title:</label>
 										<div class="col-sm-10">
-											<input name="track"/>
+											<input name="track" />
 										</div>
 									</div>
 								</div>
@@ -129,7 +129,12 @@
 									<div class="form-group">
 										<label for="title" class="col-sm-2 control-label">Genre:</label>
 										<div class="col-sm-10">
-											<input name="genre"/>
+											<select name="genre">
+												<option value="Techno">Techno</option>
+												<option value="Tech House">Tech House</option>
+												<option value="House">House</option>
+												<option value="Trance">Trance</option>
+											</select>
 										</div>
 									</div>
 								</div>
@@ -137,23 +142,22 @@
 									<div class="form-group">
 										<label for="title" class="col-sm-2 control-label">File:</label>
 										<div class="col-sm-10">
-											<input type="file" name="file"/>
+											<input type="file" name="file" />
 										</div>
 									</div>
 								</div>
-							
-									
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">Close</button>
-										<input type="submit" class="btn btn-primary" value="Save" />
-									</div>
+
+
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+									<input type="submit" class="btn btn-primary" value="Save" />
 								</div>
 							</div>
 						</div>
+					</div>
 				</form>
-				<br></br>
-				<br></br>
+				<br></br> <br></br>
 
 				<div class="panel-group">
 					<c:forEach items="${postTextList}" var="postText">
@@ -173,54 +177,63 @@
 									</form:form>
 								</c:if>
 								<form:form
-										action="${contextPath}/comment/${postText.postTextId}"
-										method="get" id="commentForm">
-										<c:choose><c:when test="${empty postText.comments}"><button class="btn btn-link"
-											type="submit">Comment</button></c:when>
-											<c:otherwise><button class="btn btn-link"
-											type="submit">View ${fn:length(postText.comments)} Comments</button></c:otherwise></c:choose>
-										
-									</form:form>
+									action="${contextPath}/comment/${postText.postTextId}"
+									method="get" id="commentForm">
+									<c:choose>
+										<c:when test="${empty postText.comments}">
+											<button class="btn btn-link" type="submit">Comment</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-link" type="submit">View
+												${fn:length(postText.comments)} Comments</button>
+										</c:otherwise>
+									</c:choose>
+
+								</form:form>
 							</div>
 
 						</div>
 					</c:forEach>
-					
+
 					<c:forEach items="${tracklist}" var="track">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<b><a href=${contextPath}/user/${track.user.username}>${track.user.fname}
 										${track.user.lname}</a></b> posted:
 							</div>
-							<div class="panel-body">${track.trackName}<div id="mainwrap">
+							<div class="panel-body">${track.trackName}<div
+									id="mainwrap">
 									<div id="nowPlay">
 										<span class="center" id="npTitle"></span>
 									</div>
 									<div id="audiowrap">
 										<div id="audio0">
-											<audio preload="auto" id="audio1" controls="controls"><source src="https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/${track.fileName}">
+											<audio preload="auto" id="audio1" controls="controls">
+												<source
+													src="https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/${track.fileName}">
 											</audio>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="panel-footer">${track.publishTime}
-								 <form:form action="${contextPath}/track/deletetrack/${track.id}" method="post">
+								<form:form action="${contextPath}/track/deletetrack/${track.id}"
+									method="post">
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>
-								</form:form> 
+								</form:form>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
-				
+
 
 			</div>
 		</div>
-			<div class="col-md-3">
-				<jsp:include page="sidebar.jsp"></jsp:include>
-			</div>
+		<div class="col-md-3">
+			<jsp:include page="sidebar.jsp"></jsp:include>
 		</div>
+	</div>
 	<!-- /container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

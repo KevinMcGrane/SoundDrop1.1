@@ -13,5 +13,5 @@ public interface GenreService {
 	
 	boolean containsName(List<Genre> list, String name);
 
-	Genre findGenreByName(String name);
+	Genre findByName(String name);
 }

@@ -28,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
 	}
 	
 	@Override
-	 public Genre findGenreByName(String name) {
+	 public Genre findByName(String name) {
 	    	return genreRepository.findByName(name);
 	    }
 	

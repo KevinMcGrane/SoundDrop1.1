@@ -19,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import sounddrop.model.Genre;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.AmazonClient;
+import sounddrop.service.GenreService;
 import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
 
@@ -38,6 +39,8 @@ public class TrackController {
     private AmazonClient amazonClient;
     
     private UserService userService;
+    
+    private GenreService genreService;
 
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -47,10 +50,14 @@ public class TrackController {
 	
 	
 	  @RequestMapping(method = RequestMethod.POST)
-	    public String addTrack(@RequestParam("track") String track, @RequestParam("genre") String genre, @RequestParam("artist") String artist, @RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
+	    public String addTrack(@RequestParam("track") String trackName, @RequestParam("genre") String genreName, @RequestParam("artist") String artist, @RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
 	        
 	        String name = principal.getName(); 
-	        this.amazonClient.uploadFile(file, track, name, genre);
+	        Genre genre = genreService.findByName(genreName);
+	        if (genre.getName().equals("Techno")) {
+	        	System.out.println("True");
+	        }
+	        this.amazonClient.uploadFile(file, trackName, name, artist, genre);
 	        
 	        return "redirect:/welcome";
 	    }
