@@ -40,6 +40,7 @@ public class TrackController {
     
     private UserService userService;
     
+    @Autowired
     private GenreService genreService;
 
 
@@ -53,6 +54,10 @@ public class TrackController {
 	    public String addTrack(@RequestParam("track") String trackName, @RequestParam("genre") String genreName, @RequestParam("artist") String artist, @RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
 	        
 	        String name = principal.getName(); 
+	        System.out.println(genreName);
+			System.out.println(genreService.findByName("Techno").getName());
+			System.out.println(genreService.findByName(genreName).getName());
+
 	        Genre genre = genreService.findByName(genreName);
 	        if (genre.getName().equals("Techno")) {
 	        	System.out.println("True");
