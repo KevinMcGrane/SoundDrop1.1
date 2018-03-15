@@ -1,7 +1,10 @@
 package sounddrop.service;
 
+import sounddrop.model.Playlist;
+import sounddrop.model.User;
+
 public interface PlaylistService {
 
-	void save(String name);
+	void save(Playlist playlist, User user);
 
 }

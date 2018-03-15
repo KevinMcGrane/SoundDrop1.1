@@ -26,8 +26,8 @@
 							<li><a href="${contextPath}/settings"> <i
 									class="glyphicon glyphicon-user"></i> Account Settings
 							</a></li>
-							<li><a href="#" target="_blank"> <i
-									class="glyphicon glyphicon-ok"></i> Discover
+							<li><a href="${contextPath}/library"> <i
+									class="glyphicon glyphicon-ok"></i> Library
 							</a></li>
 						</ul>
 					</div>

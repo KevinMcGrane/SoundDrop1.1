@@ -14,18 +14,7 @@ jQuery(function ($) {
             playing = false,
             mediaPath = 'https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/',
             extension = '',
-            tracks = [{
-                "track": 1,
-                "name": "New Order-Blue Monday",
-                "length": "7:30",
-                "file": "1518981091590-1"
-            },
-            {
-                "track": 2,
-                "name": "1",
-                "length": "7:30",
-                "file": "1"
-            }],
+            JSON.parse($(tracks1)),
             buildPlaylist = $.each(tracks, function(key, value) {
                 var trackNumber = value.track,
                     trackName = value.name,

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 public class Playlist {
 	
 	private Long id;
+	private String name;
 	private User user;
 	private List<Track> tracks;
 	
@@ -39,6 +40,13 @@ public class Playlist {
 		this.user = user;
 	}
 	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	@ManyToMany
     @JoinTable(name = "user_playlist", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "playlist_id"))
 	public List<Track> getTracks() {

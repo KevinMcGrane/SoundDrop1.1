@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 import sounddrop.model.Comment;
 import sounddrop.model.PostText;
+import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.CommentRepository;
-import sounddrop.repository.PostTextRepository;
-import sounddrop.repository.UserRepository;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -29,6 +28,16 @@ public class CommentServiceImpl implements CommentService{
         comment.setPublishTime(timestamp);
 		comment.setUser(user);
 		comment.setPostText(post);
+        commentRepository.save(comment);
+    }
+	
+	@Override
+    public void saveTrackComment(Comment comment, User user, Track track) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        comment.setContent(comment.getContent()); 
+        comment.setPublishTime(timestamp);
+		comment.setUser(user);
+		comment.setTrack(track);
         commentRepository.save(comment);
     }
 }

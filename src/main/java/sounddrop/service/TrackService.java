@@ -14,5 +14,6 @@ public interface TrackService {
 	public List<Track> getTrackFeed(Set<User> friends, User user);
 	public void delete(Track track);
 	public Track findByTrackId(long id);
+	public void update(long id);
 
 }

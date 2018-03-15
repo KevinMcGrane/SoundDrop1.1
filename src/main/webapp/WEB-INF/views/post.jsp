@@ -80,10 +80,25 @@
 								</div>
 							</div>
 							<div class="panel-footer">${track.publishTime}
+							<c:if test="${track.user.equals(currentUser)}">
 								<form:form action="${contextPath}/track/deletetrack/${track.id}"
 									method="post">
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>
+								</form:form></c:if>
+								<form:form
+									action="${contextPath}/track/comment/${track.id}"
+									method="get" id="commentForm">
+									<c:choose>
+										<c:when test="${empty track.comments}">
+											<button class="btn btn-link" type="submit">Comment</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-link" type="submit">View
+												${fn:length(track.comments)} Comments</button>
+										</c:otherwise>
+									</c:choose>
+
 								</form:form>
 							</div>
 						</div>

@@ -42,7 +42,7 @@ public class Track{
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "file_id")
+    @Column(name = "id")
 	public long getId() {
 		return id;
 	}

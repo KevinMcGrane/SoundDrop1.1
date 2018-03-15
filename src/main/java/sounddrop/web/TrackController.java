@@ -1,11 +1,7 @@
 package sounddrop.web;
 
-import java.io.File;
 import java.security.Principal;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import sounddrop.model.Comment;
 import sounddrop.model.Genre;
-import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.AmazonClient;
+import sounddrop.service.CommentService;
 import sounddrop.service.GenreService;
 import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
@@ -38,10 +35,14 @@ public class TrackController {
 	
     private AmazonClient amazonClient;
     
+    @Autowired
     private UserService userService;
     
     @Autowired
     private GenreService genreService;
+    
+    @Autowired
+    private CommentService commentService;
 
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -73,6 +74,34 @@ public class TrackController {
 			trackService.delete(track);
 			return "redirect:/welcome";
 		}
+	  
+	  @RequestMapping(value = "/comment/{trackId}", method = RequestMethod.GET)
+		public String getComments(@PathVariable long trackId, Model model) {
+			Track track = trackService.findByTrackId(trackId);
+			int commentsCount = track.getComments().size();
+			model.addAttribute("commentCount", commentsCount);
+			model.addAttribute("track", track);
+			model.addAttribute("commentForm", new Comment());
+			List<Comment> comments = track.getComments();
+			model.addAttribute("comments", comments);
+			return "trackComments";
+		}
+	  
+	  @RequestMapping(value = "/comment/{trackId}", method = RequestMethod.POST)
+		public String postComment(@PathVariable long trackId, Track track,
+				@ModelAttribute("commentForm") Comment commentForm, BindingResult bindingResult, Model model,
+				Principal principal) {
+			if (bindingResult.hasErrors()) {
+				return "trackComments";
+			}
+			track = trackService.findByTrackId(trackId);
+			String name = principal.getName();
+			User user = userService.findByUsername(name);
+			commentService.saveTrackComment(commentForm, user, track);
+			trackService.update(track.getId());
+			return "redirect:/track/comment/{trackId}";
+		}
+
 	  
 	  @Autowired
 	    TrackController(AmazonClient amazonClient) {

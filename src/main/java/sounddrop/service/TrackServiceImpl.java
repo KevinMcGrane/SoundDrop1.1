@@ -39,7 +39,8 @@ public class TrackServiceImpl implements TrackService {
 		newTrack.setGenre(genre);
 		trackRepository.save(newTrack);
 	}
-
+	
+	
 	@Override
 	public List<Track> getAllTrack() {
 		List<Track> trackList = trackRepository.findAll();
@@ -73,6 +74,17 @@ public class TrackServiceImpl implements TrackService {
 	@Override
 	public Track findByTrackId(long id) {
 		return trackRepository.findById(id);
+	}
+
+
+	@Override
+	public void update(long id) {
+		
+			Track track = findByTrackId(id);
+			track.setComments(track.getComments());
+			trackRepository.save(track);
+
+		
 	}
 
 }

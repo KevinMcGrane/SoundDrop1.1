@@ -1,26 +1,13 @@
+
 package sounddrop.web;
 
-import sounddrop.model.Comment;
-import sounddrop.model.Genre;
-import sounddrop.model.PostText;
-import sounddrop.model.Track;
-import sounddrop.model.User;
-import sounddrop.repository.GenreRepository;
-import sounddrop.repository.PostTextRepository;
-import sounddrop.service.CommentService;
-import sounddrop.service.GenreService;
-import sounddrop.service.PostTextService;
-import sounddrop.service.SecurityService;
-import sounddrop.service.TrackService;
-import sounddrop.service.UserService;
-import sounddrop.validator.UserValidator;
-
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +17,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import sounddrop.model.Comment;
+import sounddrop.model.PostText;
+import sounddrop.model.Track;
+import sounddrop.model.User;
+import sounddrop.service.CommentService;
+import sounddrop.service.GenreService;
+import sounddrop.service.PostTextService;
+import sounddrop.service.SecurityService;
+import sounddrop.service.TrackService;
+import sounddrop.service.UserService;
+import sounddrop.validator.UserValidator;
 
 @Controller
 public class UserController {
@@ -96,12 +95,36 @@ public class UserController {
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
+		
+		JSONObject jObject = new JSONObject();
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : trackList)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("length", "0.00");
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		    System.out.println("1111111" +jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}
+		System.out.println(jObject);
+		
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
-		model.addAttribute("postTextForm", new PostText());
+		model.addAttribute("postTextForm", new PostText());	
 		model.addAttribute("postTextList", postTextList);
 		model.addAttribute("friends", friends);
 		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("track", trackService.findByTrackId(1));
+		model.addAttribute("tracks1", jObject);
 		return "welcome";
 	}
 
