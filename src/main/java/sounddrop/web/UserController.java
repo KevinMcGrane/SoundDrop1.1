@@ -1,10 +1,13 @@
 
 package sounddrop.web;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -19,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sounddrop.model.Comment;
+import sounddrop.model.Playlist;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.CommentService;
 import sounddrop.service.GenreService;
+import sounddrop.service.PlaylistService;
 import sounddrop.service.PostTextService;
+import sounddrop.service.Recommender;
 import sounddrop.service.SecurityService;
 import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
@@ -52,7 +58,11 @@ public class UserController {
 
 	@Autowired
 	private CommentService commentService;
+	
+	
 
+	@Autowired
+	private PlaylistService playlistService;
 	// @RequestMapping(value = "/registration", method = RequestMethod.GET)
 	// public String registration(Model model) {
 	// model.addAttribute("userForm", new User());
@@ -89,14 +99,15 @@ public class UserController {
 	}
 
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-	public String welcome(Model model, Principal principal) {
+	public String welcome(Model model, Principal principal) throws IOException, TasteException {
 		User currentUser = userService.findByUsername(principal.getName());
 		List<PostText> postTextList = postTextService.getFeed(currentUser.getFriends(), currentUser);
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
-		
-		JSONObject jObject = new JSONObject();
+		List<Track> trackList = currentUser.getTracks();
+		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		model.addAttribute("playlists", playlists);
+				JSONObject jObject = new JSONObject();
 		try
 		{
 		    JSONArray jArray = new JSONArray();
@@ -105,18 +116,19 @@ public class UserController {
 		         JSONObject trackJSON = new JSONObject();
 		         trackJSON.put("track", track.getId());
 		         trackJSON.put("name", track.getTrackName());
-		         trackJSON.put("length", "0.00");
+		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);
-		    System.out.println("1111111" +jArray);
 		} catch (JSONException jse) {
 		    jse.printStackTrace();
 		}
 		System.out.println(jObject);
-		
+		Recommender r = new Recommender();
+		System.out.println("lllllllllllllllllllllllllllllllllllll");
+		r.recommend(currentUser.getId());
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("postTextForm", new PostText());	
@@ -124,10 +136,53 @@ public class UserController {
 		model.addAttribute("friends", friends);
 		model.addAttribute("currentUser", currentUser);
 		model.addAttribute("track", trackService.findByTrackId(1));
-		model.addAttribute("tracks1", jObject);
 		return "welcome";
 	}
-
+	
+	@RequestMapping(value = { "/welcome/{playlistName}" }, method = RequestMethod.GET)
+	public String welcome1(@PathVariable String playlistName, Model model, Principal principal) {
+		User currentUser = userService.findByUsername(principal.getName());
+		List<PostText> postTextList = postTextService.getFeed(currentUser.getFriends(), currentUser);
+		Set<User> friends = currentUser.getFriends();
+		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		Playlist playlist1 = playlistService.findByName(playlistName);
+		List<Track> playlist = playlist1.getTracks();
+		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
+		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		model.addAttribute("playlists", playlists);
+		JSONObject jObject = new JSONObject();
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : playlist)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("artist", track.getArtist());
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}
+		System.out.println(jObject);
+		
+		model.addAttribute("playlist", playlist);
+		model.addAttribute("tracklist", trackList);
+		model.addAttribute("count", incomingRequestsCount);
+		model.addAttribute("postTextForm", new PostText());	
+		model.addAttribute("postTextList", postTextList);
+		model.addAttribute("friends", friends);
+		model.addAttribute("currentUser", currentUser);
+		return "welcome";
+	}
+	
+	
+	
+	
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.POST)
 	public String addPostText(@ModelAttribute("postTextForm") PostText postTextForm, BindingResult bindingResult,
 			Model model, Principal principal) {

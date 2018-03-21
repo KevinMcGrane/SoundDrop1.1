@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import sounddrop.model.Genre;
-import sounddrop.model.PostText;
+import sounddrop.model.Playlist;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 
@@ -15,5 +15,6 @@ public interface TrackService {
 	public void delete(Track track);
 	public Track findByTrackId(long id);
 	public void update(long id);
+	public void addTrackToPlaylist(Track track, Playlist pl);
 
 }

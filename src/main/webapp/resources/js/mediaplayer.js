@@ -1,12 +1,4 @@
-// External Files:
-// https://api.html5media.info/1.1.8/html5media.min.js (enables <video> and <audio> tags in all major browsers)
-// https://cdn.plyr.io/2.0.13/plyr.js
-
-
-// HTML5 audio player + playlist controls...
-// Inspiration: http://jonhall.info/how_to/create_a_playlist_for_html5_audio
-// Mythium Archive: https://archive.org/details/mythium/
-jQuery(function ($) {
+/*jQuery(function ($) {
     'use strict'
     var supportsAudio = !!document.createElement('audio').canPlayType;
     if (supportsAudio) {
@@ -14,7 +6,7 @@ jQuery(function ($) {
             playing = false,
             mediaPath = 'https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/',
             extension = '',
-            JSON.parse($(tracks1)),
+            tracks = ${tracks},
             buildPlaylist = $.each(tracks, function(key, value) {
                 var trackNumber = value.track,
                     trackName = value.name,
@@ -84,7 +76,7 @@ jQuery(function ($) {
                 $('#plList li:eq(' + id + ')').addClass('plSel');
                 npTitle.text(tracks[id].name);
                 index = id;
-                audio.src = mediaPath + tracks[id].file + extension;
+                audio.src = mediaPath + tracks[id].file;
             },
             playTrack = function (id) {
                 loadTrack(id);
@@ -96,4 +88,4 @@ jQuery(function ($) {
 });
 
 //initialize plyr
-plyr.setup($('#audio1'), {});
+plyr.setup($('#audio1'), {});*/

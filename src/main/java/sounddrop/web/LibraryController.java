@@ -1,9 +1,13 @@
 package sounddrop.web;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,28 +15,77 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sounddrop.model.Playlist;
-import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.PlaylistService;
+import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
 
 @Controller
+@RequestMapping("/library")
 public class LibraryController {
 	@Autowired
 	UserService userService;
 	
 	@Autowired
 	PlaylistService playlistService;
+	
+	@Autowired
+	TrackService trackService;
 
 	
-	@RequestMapping(value = { "/library" }, method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String library(Model model, Principal principal) {
 		User currentUser = userService.findByUsername(principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
+		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		List<String> playlistNames = new ArrayList<String>();
+		for (Playlist playlist : playlists) {
+			String name = playlist.getName();
+			playlistNames.add(name);
+		}
+		model.addAttribute("playlistNames", playlistNames);
+		JSONObject jObject = new JSONObject();
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : trackList)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("length", "0.00");
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		    System.out.println("1111111" +jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}		
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : trackList)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("length", "0.00");
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("friends", friends);
 		model.addAttribute("currentUser", currentUser);
@@ -40,7 +93,7 @@ public class LibraryController {
 		return "library";
 	}
 	
-	@RequestMapping(value = { "/playlist" }, method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String addPostText(@ModelAttribute("playlistForm") Playlist playlistForm, BindingResult bindingResult,
 			Model model, Principal principal) {
 
@@ -53,4 +106,6 @@ public class LibraryController {
 
 		return "redirect:/library";
 	}
+	
+	
 }

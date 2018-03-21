@@ -16,12 +16,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import sounddrop.model.Genre;
+import sounddrop.model.Playlist;
 import sounddrop.model.PostText;
+import sounddrop.model.Rating;
 import sounddrop.model.Role;
+import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.GenreRepository;
+import sounddrop.repository.PlaylistRepository;
 import sounddrop.repository.PostTextRepository;
+import sounddrop.repository.RatingRepository;
 import sounddrop.repository.RoleRepository;
+import sounddrop.repository.TrackRepository;
 import sounddrop.repository.UserRepository;
 
 @Transactional
@@ -30,6 +36,9 @@ public class dbTesting {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private TrackRepository trackRepository;
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -39,12 +48,23 @@ public class dbTesting {
 	
 	@Autowired
 	private GenreRepository genreRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PlaylistRepository playlistRepository;
+	
+	@Autowired
+	private RatingRepository rating1Repository;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@PostConstruct
 	public void init() {
+		
+
 
 		Role roleUser = new Role();
 		roleUser.setName("ROLE_USER");
@@ -74,20 +94,44 @@ public class dbTesting {
 		requests.add(user);
 		User user2 = new User();
 		String password2 = "test";
-		user2.setUsername("brian98");
+		user2.setUsername("user2");
 		user2.setPassword(bCryptPasswordEncoder.encode(password2));
 		user2.setFname("Brian");
 		user2.setLname("MacCourt");
 		user2.setBio("Hi there!");
 	
 		
-		
-		
-		
 		user2.setRoles(roles);
 		userRepository.save(user2);
 		
 		
+		
+		User user3 = new User();
+		user3.setUsername("user3");
+		user3.setPassword(bCryptPasswordEncoder.encode(password2));
+		user3.setFname("John");
+		user3.setLname("Reilly");
+		user3.setBio("Hi there!")	;	
+		user3.setRoles(roles);
+		userRepository.save(user3);
+		
+		User user4 = new User();
+		user4.setUsername("user4");
+		user4.setPassword(bCryptPasswordEncoder.encode(password2));
+		user4.setFname("Joe");
+		user4.setLname("Bloggs");
+		user4.setBio("Hi there!");
+		user4.setRoles(roles);
+		userRepository.save(user4);
+		
+		User user5 = new User();
+		user5.setUsername("user5");
+		user5.setPassword(bCryptPasswordEncoder.encode(password2));
+		user5.setFname("John");
+		user5.setLname("Bloggs");
+		user5.setBio("Hi there!")	;	
+		user5.setRoles(roles);
+		userRepository.save(user5);	
 		
 		PostText postText = new PostText();
 		postText.setContent("Hi");
@@ -117,6 +161,232 @@ public class dbTesting {
 	    Genre genre3 = new Genre();
 	    genre3.setName("Trance");
 	    genreRepository.save(genre3);
+	    
+	    Track track1 = new Track();
+	    track1.setTrackName(("It's Only Real"));
+	    track1.setGenre(genre1);
+	    track1.setArtist("Denis Sulta");
+	    track1.setUser(user);
+	    track1.setPublishTime(timestamp);
+	    track1.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track1);
+	    
+	    Track track2 = new Track();
+	    track2.setTrackName(("You Don't Know Me"));
+	    track2.setGenre(genre1);
+	    track2.setArtist("Armand Van Helden");
+	    track2.setUser(user);
+	    track2.setPublishTime(timestamp);
+	    track2.setFileName("1521220048923-Armand_Van_Helden-You_Don't_Know_Me.mp3");
+	    trackRepository.save(track2);
+	     
+	    
+	   Track track3 = new Track();
+	    track3.setTrackName(("It's Only Real"));
+	    track3.setGenre(genre1);
+	    track3.setArtist("Denis Sulta");
+	    track3.setUser(user);
+	    track3.setPublishTime(timestamp);
+	    track3.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track3);
+	    
+	    Track track4 = new Track();
+	    track4.setTrackName(("It's Only Real"));
+	    track4.setGenre(genre1);
+	    track4.setArtist("Denis Sulta");
+	    track4.setUser(user);
+	    track4.setPublishTime(timestamp);
+	    track4.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track4);
+	    
+	    Track track5 = new Track();
+	    track5.setTrackName(("It's Only Real"));
+	    track5.setGenre(genre1);
+	    track5.setArtist("Denis Sulta");
+	    track5.setUser(user);
+	    track5.setPublishTime(timestamp);
+	    track5.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track5);
+	    
+	    Track track6 = new Track();
+	    track6.setTrackName(("It's Only Real"));
+	    track6.setGenre(genre1);
+	    track6.setArtist("Denis Sulta");
+	    track6.setUser(user);
+	    track6.setPublishTime(timestamp);
+	    track6.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track6);
+	    
+	    Track track7 = new Track();
+	    track7.setTrackName(("It's Only Real"));
+	    track7.setGenre(genre1);
+	    track7.setArtist("Denis Sulta");
+	    track7.setUser(user);
+	    track7.setPublishTime(timestamp);
+	    track7.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track7);
+	    
+	    Track track8 = new Track();
+	    track8.setTrackName(("It's Only Real"));
+	    track8.setGenre(genre1);
+	    track8.setArtist("Denis Sulta");
+	    track8.setUser(user);
+	    track8.setPublishTime(timestamp);
+	    track8.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track8);
+	    
+	    Track track9 = new Track();
+	    track9.setTrackName(("It's Only Real"));
+	    track9.setGenre(genre1);
+	    track9.setArtist("Denis Sulta");
+	    track9.setUser(user);
+	    track9.setPublishTime(timestamp);
+	    track9.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track9);
+	    
+	    Track track10 = new Track();
+	    track10.setTrackName(("It's Only Real"));
+	    track10.setGenre(genre1);
+	    track10.setArtist("Denis Sulta");
+	    track10.setUser(user);
+	    track10.setPublishTime(timestamp);
+	    track10.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track10);
+	    
+	    Track track11 = new Track();
+	    track11.setTrackName(("It's Only Real"));
+	    track11.setGenre(genre1);
+	    track11.setArtist("Denis Sulta");
+	    track11.setUser(user);
+	    track11.setPublishTime(timestamp);
+	    track11.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track11);
+	    
+	    Track track12 = new Track();
+	    track12.setTrackName(("It's Only Real"));
+	    track12.setGenre(genre1);
+	    track12.setArtist("Denis Sulta");
+	    track12.setUser(user);
+	    track12.setPublishTime(timestamp);
+	    track12.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track12);
+	    
+	    Track track13 = new Track();
+	    track13.setTrackName(("It's Only Real"));
+	    track13.setGenre(genre1);
+	    track13.setArtist("Denis Sulta");
+	    track13.setUser(user);
+	    track13.setPublishTime(timestamp);
+	    track13.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track13);
+	    
+	    Track track14 = new Track();
+	    track14.setTrackName(("It's Only Real"));
+	    track14.setGenre(genre1);
+	    track14.setArtist("Denis Sulta");
+	    track14.setUser(user);
+	    track14.setPublishTime(timestamp);
+	    track14.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track14);
+	    
+	    Track track15 = new Track();
+	    track15.setTrackName(("It's Only Real"));
+	    track15.setGenre(genre1);
+	    track15.setArtist("Denis Sulta");
+	    track15.setUser(user);
+	    track15.setPublishTime(timestamp);
+	    track15.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track15);
+	    
+	    Track track16 = new Track();
+	    track16.setTrackName(("It's Only Real"));
+	    track16.setGenre(genre1);
+	    track16.setArtist("Denis Sulta");
+	    track16.setUser(user);
+	    track16.setPublishTime(timestamp);
+	    track16.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track16);
+	    
+	    Track track17 = new Track();
+	    track17.setTrackName(("It's Only Real"));
+	    track17.setGenre(genre1);
+	    track17.setArtist("Denis Sulta");
+	    track17.setUser(user);
+	    track17.setPublishTime(timestamp);
+	    track17.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track17);
+	    
+	    Track track18 = new Track();
+	    track18.setTrackName(("It's Only Real"));
+	    track18.setGenre(genre1);
+	    track18.setArtist("Denis Sulta");
+	    track18.setUser(user);
+	    track18.setPublishTime(timestamp);
+	    track18.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track18);
+	  /*  
+	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);
+	    
+	    Rating rating2 = new Rating();
+	    rating2.setUser(user);
+	    rating2.setTrack(track10);
+	    rating2.setRating(1);
+	    rating1Repository.save(rating2);
+	    */
+/*	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);
+	    
+	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);
+	    
+	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);
+	    
+	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);
+	    
+	    Rating rating1 = new Rating();
+	    rating1.setUser(user);
+	    rating1.setTrack(track10);
+	    rating1.setRating(1);
+	    rating1Repository.save(rating1);*/
+	    
+	    
+	    List<Track> tracks = new ArrayList<Track>();
+	    tracks.add(track2);
+	    tracks.add(track1);
+	    
+	    List<Track> tracks1 = new ArrayList<Track>();
+	    tracks1.add(track1);
+	    Playlist pl1 = new Playlist();
+	    pl1.setName("pl1");
+	    pl1.setTracks(tracks);
+	    pl1.setUser(user);
+	    
+	    Playlist pl2 = new Playlist();
+	    pl2.setName("pl2");
+	    pl2.setTracks(tracks1);
+	    pl2.setUser(user); 
+	    
+	    playlistRepository.save(pl1);
+	    playlistRepository.save(pl2);
+	    
 	}
 
 }

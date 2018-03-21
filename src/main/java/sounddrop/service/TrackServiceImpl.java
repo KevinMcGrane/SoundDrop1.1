@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sounddrop.model.Genre;
+import sounddrop.model.Playlist;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
@@ -74,6 +75,11 @@ public class TrackServiceImpl implements TrackService {
 	@Override
 	public Track findByTrackId(long id) {
 		return trackRepository.findById(id);
+	}
+	
+	@Override
+	public void addTrackToPlaylist(Track track, Playlist pl) {
+		
 	}
 
 

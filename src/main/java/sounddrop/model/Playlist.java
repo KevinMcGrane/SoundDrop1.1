@@ -23,7 +23,7 @@ public class Playlist {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "file_id")
+    @Column(name = "id")
 	public Long getId() {
 		return id;
 	}
@@ -47,8 +47,8 @@ public class Playlist {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@ManyToMany
-    @JoinTable(name = "user_playlist", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "playlist_id"))
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "track_playlist", joinColumns = @JoinColumn(name = "playlist_id"), inverseJoinColumns = @JoinColumn(name = "track_id"))
 	public List<Track> getTracks() {
 		return tracks;
 	}

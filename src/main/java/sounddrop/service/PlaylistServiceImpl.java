@@ -1,5 +1,7 @@
 package sounddrop.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,16 @@ public class PlaylistServiceImpl implements PlaylistService{
 		playlist.setName(playlist.getName());
 		playlist.setUser(user);
 		playlistRepository.save(playlist);
+	}
+	
+	@Override
+	public List<Playlist> findByUser(User user){
+		return playlistRepository.findByUser(user);
+	}
+	
+	@Override
+	public Playlist findByName(String name) {
+		return playlistRepository.findByName(name);
 	}
 
 }
