@@ -133,13 +133,13 @@
             buildPlaylist = $.each(tracks, function(key, value) {
                 var trackNumber = value.track,
                     trackName = value.name,
-                    trackLength = value.length;
+                    trackArtist = value.artist;
                 if (trackNumber.toString().length === 1) {
                     trackNumber = '0' + trackNumber;
                 } else {
                     trackNumber = '' + trackNumber;
                 }
-                $('#plList').append('<li><div class="plItem"><div class="plNum">' + trackNumber + '.</div><div class="plTitle">' + trackName + '</div><div class="plLength">' + trackLength + '</div></div></li>');
+                $('#plList').append('<li><div class="plItem"><div class="plNum">' + trackNumber +  '</div><div class="plTitle">' + trackArtist +'    -    ' + trackName + '</div></div></li>');
             }),
             trackCount = tracks.length,
             npAction = $('#npAction'),

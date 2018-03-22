@@ -113,25 +113,7 @@ public class LibraryController {
 		         JSONObject trackJSON = new JSONObject();
 		         trackJSON.put("track", track.getId());
 		         trackJSON.put("name", track.getTrackName());
-		         trackJSON.put("length", "0.00");
-		         trackJSON.put("file", track.getFileName());
-		         jArray.put(trackJSON);
-		    }
-		    jObject.put("tracks", jArray);
-		    model.addAttribute("tracks", jArray);
-		    System.out.println("1111111" +jArray);
-		} catch (JSONException jse) {
-		    jse.printStackTrace();
-		}		
-		try
-		{
-		    JSONArray jArray = new JSONArray();
-		    for (Track track : trackList)
-		    {
-		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
-		         trackJSON.put("name", track.getTrackName());
-		         trackJSON.put("length", "0.00");
+		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
 		    }
