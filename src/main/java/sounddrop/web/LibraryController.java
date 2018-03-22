@@ -100,13 +100,15 @@ public class LibraryController {
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		List<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		Playlist playlist1 = playlistService.findByName(playlistName);
+		List<Track> playlist = playlist1.getTracks();
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();
 		try
 		{
 		    JSONArray jArray = new JSONArray();
-		    for (Track track : trackList)
+		    for (Track track : playlist)
 		    {
 		         JSONObject trackJSON = new JSONObject();
 		         trackJSON.put("track", track.getId());
