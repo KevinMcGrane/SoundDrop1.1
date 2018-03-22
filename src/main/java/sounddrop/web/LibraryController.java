@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.mahout.cf.taste.common.TasteException;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,18 +40,14 @@ public class LibraryController {
 
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String library(Model model, Principal principal) {
+	public String library(Model model, Principal principal) throws TasteException {
 		User currentUser = userService.findByUsername(principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
+		List<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
-		List<String> playlistNames = new ArrayList<String>();
-		for (Playlist playlist : playlists) {
-			String name = playlist.getName();
-			playlistNames.add(name);
-		}
-		model.addAttribute("playlistNames", playlistNames);
+		model.addAttribute("playlists", playlists);
+		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();
 		try
 		{
@@ -86,6 +84,8 @@ public class LibraryController {
 		} catch (JSONException jse) {
 		    jse.printStackTrace();
 		}
+		List<Track> recommendedTracks = trackService.recommend(currentUser.getId());
+		model.addAttribute("recommendedTracks", recommendedTracks);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("friends", friends);
 		model.addAttribute("currentUser", currentUser);
@@ -93,6 +93,59 @@ public class LibraryController {
 		return "library";
 	}
 	
+	@RequestMapping(value = { "/{playlistName}" },method = RequestMethod.GET)
+	public String libraryPlaylist(@PathVariable String playlistName, Model model, Principal principal) throws TasteException {
+		User currentUser = userService.findByUsername(principal.getName());
+		Set<User> friends = currentUser.getFriends();
+		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		List<Track> trackList = currentUser.getTracks();
+		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		model.addAttribute("playlists", playlists);
+		model.addAttribute("tracklist", trackList);
+		JSONObject jObject = new JSONObject();
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : trackList)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("length", "0.00");
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		    System.out.println("1111111" +jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}		
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : trackList)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("length", "0.00");
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}
+		List<Track> recommendedTracks = trackService.recommend(currentUser.getId());
+		model.addAttribute("recommendedTracks", recommendedTracks);
+		model.addAttribute("count", incomingRequestsCount);
+		model.addAttribute("friends", friends);
+		model.addAttribute("currentUser", currentUser);
+		model.addAttribute("playlistForm", new Playlist());
+		return "library";
+	}
 	@RequestMapping(method = RequestMethod.POST)
 	public String addPostText(@ModelAttribute("playlistForm") Playlist playlistForm, BindingResult bindingResult,
 			Model model, Principal principal) {

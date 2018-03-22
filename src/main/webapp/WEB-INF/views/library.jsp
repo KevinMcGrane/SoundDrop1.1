@@ -46,13 +46,63 @@
 
 		<div class="col-lg-4">
 			<div id="logbox">
-				<jsp:include page="mediaplayer.jsp"></jsp:include>
+				<jsp:include page="mediaplayel.jsp"></jsp:include>
 			</div>
 
 		</div>
 
 
-		<div class="col-lg-5"><form:form commandName="playlistForm" action="${contextPath}/playlist" method="post" class="navbar-form navbar-right">
+		<div class="col-lg-0"></div>
+				<div class="col-lg-5"><h3><b>Tracks you may like</b></h3>
+				<c:forEach items="${recommendedTracks}" var="track">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<b><a href=${contextPath}/user/${track.user.username}>${track.user.fname}
+										${track.user.lname}</a></b> posted:
+							</div>
+							<div class="panel-body"><b>Artist:</b>${track.artist}<br><b>Name:</b>${track.trackName}<br><b>Genre:</b>${track.genre.name}<br><div
+									id="mainwrap">
+									<div id="nowPlay">
+										<span class="center" id="npTitle"></span>
+									</div>
+									<div id="audiowrap">
+										<div id="audio0">
+											<audio preload="auto" id="audio1" controls="controls">
+												<source
+													src="https://s3.eu-west-1.amazonaws.com/sounddrop-track-bucket/${track.fileName}">
+											</audio>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="panel-footer">${track.publishTime}
+							<c:if test="${track.user.equals(currentUser)}">
+								<form:form action="${contextPath}/track/deletetrack/${track.id}"
+									method="post">
+									<button name="${_csrf.parameterName}" value="${_csrf.token}"
+										type="submit" class="btn btn-failure btn-sm">Delete</button>
+								</form:form></c:if>
+								<form:form
+									action="${contextPath}/track/comment/${track.id}"
+									method="get" id="commentForm">
+									<c:choose>
+										<c:when test="${empty track.comments}">
+											<button class="btn btn-link" type="submit">Comment</button>
+										</c:when>
+										<c:otherwise>
+											<button class="btn btn-link" type="submit">View
+												${fn:length(track.comments)} Comments</button>
+										</c:otherwise>
+									</c:choose>
+
+								</form:form>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+		<div class="col-md-3">
+			<jsp:include page="sidebar.jsp"></jsp:include>
+			<form:form commandName="playlistForm" action="${contextPath}/playlist" method="post" class="navbar-form navbar-right">
 	
 										<label for="name" class="col-sm-2 control-label">New Playlist:</label>
 										<div class="input-group">
@@ -63,9 +113,7 @@
 									
 									
 
-				</form:form></div>
-		<div class="col-md-3">
-			<jsp:include page="sidebar.jsp"></jsp:include>
+				</form:form>
 		</div>
 	</div>
 	<!-- /container -->

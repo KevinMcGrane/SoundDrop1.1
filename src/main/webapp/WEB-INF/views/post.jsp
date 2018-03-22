@@ -58,7 +58,7 @@
 						</div>
 					</c:forEach>
 
-					<c:forEach items="${tracklist}" var="track">
+					<c:forEach items="${trackFeed}" var="track">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<b><a href=${contextPath}/user/${track.user.username}>${track.user.fname}

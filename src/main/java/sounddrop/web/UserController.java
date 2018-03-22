@@ -105,6 +105,7 @@ public class UserController {
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		List<Track> trackList = currentUser.getTracks();
+		List<Track> trackFeed = trackService.getTrackFeed(friends, currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		model.addAttribute("playlists", playlists);
 				JSONObject jObject = new JSONObject();
@@ -126,10 +127,10 @@ public class UserController {
 		    jse.printStackTrace();
 		}
 		System.out.println(jObject);
-		Recommender r = new Recommender();
 		System.out.println("lllllllllllllllllllllllllllllllllllll");
-		r.recommend(currentUser.getId());
+		List<Track> recommendedTracks = trackService.recommend(currentUser.getId());
 		model.addAttribute("tracklist", trackList);
+		model.addAttribute("trackFeed", trackFeed);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("postTextForm", new PostText());	
 		model.addAttribute("postTextList", postTextList);
@@ -147,9 +148,11 @@ public class UserController {
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		Playlist playlist1 = playlistService.findByName(playlistName);
 		List<Track> playlist = playlist1.getTracks();
-		List<Track> trackList = trackService.getTrackFeed(friends, currentUser);
+		List<Track> trackList = trackService.findByUser(currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		model.addAttribute("playlists", playlists);
+		List<Track> trackFeed = trackService.getTrackFeed(friends, currentUser);
+		model.addAttribute("trackFeed", trackFeed);
 		JSONObject jObject = new JSONObject();
 		try
 		{
@@ -284,6 +287,10 @@ public class UserController {
 		User user = userService.findUserWithPosts(username);
 		model.addAttribute("user", user);
 		String name = principal.getName();
+		List<Track> trackFeed = trackService.findByUser(user);
+		model.addAttribute("trackFeed", trackFeed);
+		List<PostText> postTextList = postTextService.findByUser(username);
+		model.addAttribute("postTextList", postTextList);
 		User currentUser = userService.findByUsername(name);
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		model.addAttribute("count", incomingRequestsCount);

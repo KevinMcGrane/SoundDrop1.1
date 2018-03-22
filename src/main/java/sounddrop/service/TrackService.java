@@ -3,6 +3,8 @@ package sounddrop.service;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.mahout.cf.taste.common.TasteException;
+
 import sounddrop.model.Genre;
 import sounddrop.model.Playlist;
 import sounddrop.model.Track;
@@ -16,5 +18,7 @@ public interface TrackService {
 	public Track findByTrackId(long id);
 	public void update(long id);
 	public void addTrackToPlaylist(Track track, Playlist pl);
+	public List<Track> recommend(long userId) throws TasteException;
+	public List<Track> findByUser(User user);
 
 }
