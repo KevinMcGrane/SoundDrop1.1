@@ -1,5 +1,6 @@
 package sounddrop.service;
 
+import sounddrop.model.Post;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
@@ -15,7 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +35,12 @@ public class UserServiceImpl implements UserService {
     private PostTextRepository postTextRepository;
     @Autowired
     private TrackRepository trackRepository;
+    @Autowired
+    TrackService trackService;
+    @Autowired
+    PostTextService postTextService;
+    @Autowired
+    PostService postService;
     
     @Override
     public void save(User user) {
@@ -53,49 +62,30 @@ public class UserServiceImpl implements UserService {
         user.setOutgoingFriendRequests(user.getOutgoingFriendRequests());
         user.setProfilePic(user.getProfilePic());
         user.setComments(user.getComments());
+        user.setPost(user.getPost());
         userRepository.save(user);
     }
 
+
+    
     @Override
-    public User findUser(long id) {
-    	User user = findOne(id);
-    	List<PostText> postTexts = postTextRepository.findByUser(user);
-    	List<Track> tracks = trackRepository.findByUser(user);
-        Collections.reverse(postTexts);
-		user.setPostTexts(postTexts);
-		user.setTracks(tracks);
-        return user;
-    }
-    
-    public User findOne(Long id) {
-    	return userRepository.findOne(id);
-    }
-    
-    public User findUserWithPosts(String username) {
-    	User user = userRepository.findByUsername(username);
-    	
-    	return findUser(user.getId());
-    }
-    
     public User findByUsername(String username) {
     	return userRepository.findByUsername(username);
     }
     
+   
     @Override
-    public User findById(Long id) {
-        return userRepository.findOne(id);
-      }
-    
     public User find(User user) {
         return findByUsername(user.getUsername());
       }
     
+    @Override
     public List<User> getAllUser() {
     	List<User> userList = userRepository.findAll();
     	
     	return userList;
 	}
-
+    @Override
     public List<User> findUserByLname(String lname){
     	List<User> userList = userRepository.findUserByLname(lname);	
     	return userList;
@@ -182,6 +172,11 @@ public class UserServiceImpl implements UserService {
 	    return userRepository.countIncomingFriendRequests(user);
 	  }
 
+	@Override
+	public User findById(Long id) {
+		return userRepository.findOne(id);
+	}
+	
 	
 
 }

@@ -163,7 +163,6 @@
 					</div>
 				</form>
 				<br></br> <br></br>
-				
 				<jsp:include page="post.jsp"></jsp:include>
 
 

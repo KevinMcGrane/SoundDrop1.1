@@ -56,7 +56,7 @@ public class FriendsController {
 	    return "redirect:/user/{username}";
 	  }
 	
-	@RequestMapping(value = "/{friendId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{remove}", method = RequestMethod.POST)
 	  public String doIdDelete(@ModelAttribute User user, @PathVariable("friendId") Long friendId, Model model) {
 	    User friend = userService.findById(friendId);
 	    userService.removeFriends(user, friend);

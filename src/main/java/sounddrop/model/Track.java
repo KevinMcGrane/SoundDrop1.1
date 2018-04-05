@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Track{
@@ -27,6 +28,8 @@ public class Track{
 	private Date publishTime;
 	private List<Playlist> playlists;
 	private List<Comment> comments;
+	
+	private Post post;
 	
 /*	public Track() {
 		
@@ -113,6 +116,14 @@ public class Track{
 	}
 	public void setPlaylists(List<Playlist> playlists) {
 		this.playlists = playlists;
+	}
+	
+	@OneToOne
+	public Post getPost() {
+		return post;
+	}
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 	

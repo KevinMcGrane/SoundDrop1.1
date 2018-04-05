@@ -34,10 +34,13 @@ import sounddrop.repository.UserRepository;
 public class TrackServiceImpl implements TrackService {
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
-	TrackRepository trackRepository;
+	private TrackRepository trackRepository;
+	
+	@Autowired
+	private PostService postService;
 
 	@Override
 	public void save(String trackName, String name, String artist, String fileName, Genre genre) {
@@ -51,6 +54,8 @@ public class TrackServiceImpl implements TrackService {
 		newTrack.setUser(user);
 		newTrack.setGenre(genre);
 		trackRepository.save(newTrack);
+		postService.save(null, newTrack);
+		
 	}
 	
 	
@@ -109,10 +114,10 @@ public class TrackServiceImpl implements TrackService {
 	public List<Track> recommend(long userId) throws TasteException
 	{
 		MysqlDataSource dataSource = new MysqlDataSource();
-		dataSource.setURL("jdbc:mysql://localhost:3306/accounts?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
+		dataSource.setURL("jdbc:mysql://localhost:3306/sounddrop?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
 		dataSource.setUser("root");
 		dataSource.setPassword("root");
-		dataSource.setDatabaseName("accounts");
+		dataSource.setDatabaseName("sounddrop");
 		
 		DataModel model = new MySQLJDBCDataModel(dataSource, "taste_preferences", "user_id",
 			    "item_id", "preference", null);

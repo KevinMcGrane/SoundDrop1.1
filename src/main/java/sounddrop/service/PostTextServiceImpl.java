@@ -37,6 +37,9 @@ public class PostTextServiceImpl implements PostTextService {
     
     @Autowired
     private TrackRepository trackRepository;
+    
+    @Autowired
+    private PostService postService;
   
 
     @Override
@@ -47,7 +50,9 @@ public class PostTextServiceImpl implements PostTextService {
         postText.setPublishTime(timestamp);
 		postText.setUser(user);
 		postText.setComments(postText.getComments());
-        postTextRepository.save(postText);
+		postTextRepository.save(postText);
+		postService.save(postText, null);
+        
     }
 
  
