@@ -21,4 +21,6 @@ public interface PostService {
 
 	Post findById(Long id);
 
+	void delete(Post post);
+
 }

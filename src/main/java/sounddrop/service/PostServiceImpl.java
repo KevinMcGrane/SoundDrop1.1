@@ -20,6 +20,10 @@ public class PostServiceImpl implements PostService{
 	
 	@Autowired
 	PostRepository postRepository;
+	@Autowired
+	TrackService trackService;
+	@Autowired
+	PostTextService postTextService;
 	 	@Override
 	    public void save(PostText postText, Track track) {
 	 		Post post = new Post();
@@ -70,5 +74,15 @@ public class PostServiceImpl implements PostService{
 	 	@Override
 	 	public Post findById(Long id) {
 	 		return postRepository.findById(id);
+	 	}
+	 	
+	 	@Override
+	 	public void delete(Post post) {
+	 		postRepository.delete(post);
+	 		if (post.isTypeTrack()) {
+	 			trackService.delete(post.getTrack());
+	 		}else {
+	 			postTextService.delete(post.getPostText());
+	 		}
 	 	}
 }

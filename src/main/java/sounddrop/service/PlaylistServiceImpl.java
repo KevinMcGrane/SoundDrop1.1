@@ -17,6 +17,7 @@ public class PlaylistServiceImpl implements PlaylistService{
 	public void save(Playlist playlist, User user) {
 		playlist.setName(playlist.getName());
 		playlist.setUser(user);
+		playlist.setTracks(playlist.getTracks());
 		playlistRepository.save(playlist);
 	}
 	

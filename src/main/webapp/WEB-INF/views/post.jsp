@@ -20,6 +20,7 @@
 	<input type="hidden" name="${_csrf.parameterName}"
 		value="${_csrf.token}" />
 </form>
+
 </head>
 <body>
 <div class="panel-group">
@@ -33,7 +34,7 @@
 							<div class="panel-footer">${post.postText.publishTime}<c:if
 									test="${post.postText.user.equals(currentUser)}">
 									<form:form
-										action="${contextPath}/deletepost/${post.postText.postTextId}"
+										action="${contextPath}/deletepost/${post.id}"
 										method="post">
 										<button name="${_csrf.parameterName}" value="${_csrf.token}"
 											type="submit" class="btn btn-failure btn-sm">Delete</button>
@@ -78,7 +79,7 @@
 							</div>
 							<div class="panel-footer">${post.track.publishTime}
 							<c:if test="${post.track.user.equals(currentUser)}">
-								<form:form action="${contextPath}/track/deletetrack/${post.track.id}"
+								<form:form action="${contextPath}/deletepost/${post.id}"
 									method="post">
 									<button name="${_csrf.parameterName}" value="${_csrf.token}"
 										type="submit" class="btn btn-failure btn-sm">Delete</button>
@@ -97,9 +98,15 @@
 									</c:choose>
 
 								</form:form>
+								<form:form action="${contextPath}/track/${post.track.id}/addtoplaylist" method="post" commandName="playlistForm">
+  <select name="playlist">
+  <c:forEach items="${playlists}" var="playlist"><option value="${playlist.name}">${playlist.name}</option> </c:forEach>
+ </select> <button type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">Add</button>
+ </form:form><div id="Response"></div>
 							</div>
 						</div></c:if>
 					</c:forEach>
 
 				</div>
+			
 				</body>

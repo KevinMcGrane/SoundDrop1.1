@@ -194,10 +194,10 @@ public class UserController {
 		return "redirect:/welcome";
 	}
 
-	@RequestMapping(value = "/deletepost/{postTextId}", method = RequestMethod.POST)
-	public String doIdDelete(@PathVariable long postTextId, PostText postText) {
-		postText = postTextService.findByPostTextId(postTextId);
-		postTextService.delete(postText);
+	@RequestMapping(value = "/deletepost/{postId}", method = RequestMethod.POST)
+	public String doIdDelete(@PathVariable Long postId, Post post) {
+		post = postService.findById(postId);
+		postService.delete(post);
 		return "redirect:/welcome";
 	}
 
@@ -327,6 +327,44 @@ public class UserController {
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("userList", userList);
 		return "users";
+	}
+	
+	@RequestMapping(value = "playlist/{playlistName}", method = RequestMethod.GET)
+	public String playlist(@PathVariable String playlistName, Model model, Principal principal) {
+		String username = principal.getName();
+		User currentUser = userService.findByUsername(username);
+		model.addAttribute("currentUser", currentUser);
+		Playlist playlist1 = playlistService.findByName(playlistName);
+		List<Track> playlist = playlist1.getTracks();
+		List<Track> trackList = trackService.findByUser(currentUser);
+		List<Playlist> playlists = playlistService.findByUser(currentUser);
+		JSONObject jObject = new JSONObject();
+		try
+		{
+		    JSONArray jArray = new JSONArray();
+		    for (Track track : playlist)
+		    {
+		         JSONObject trackJSON = new JSONObject();
+		         trackJSON.put("track", track.getId());
+		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("artist", track.getArtist());
+		         trackJSON.put("file", track.getFileName());
+		         jArray.put(trackJSON);
+		    }
+		    jObject.put("tracks", jArray);
+		    model.addAttribute("tracks", jArray);
+		} catch (JSONException jse) {
+		    jse.printStackTrace();
+		}
+		System.out.println("tttttt");
+		model.addAttribute("playlists", playlists);
+		model.addAttribute("playlist", playlist);
+		model.addAttribute("tracklist", trackList);
+		model.addAttribute("postTextForm", new PostText());	
+		model.addAttribute("currentUser", currentUser);
+
+			return "post";
+		
 	}
 
 }

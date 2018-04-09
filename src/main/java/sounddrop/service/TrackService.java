@@ -17,8 +17,8 @@ public interface TrackService {
 	public void delete(Track track);
 	public Track findByTrackId(long id);
 	public void update(long id);
-	public void addTrackToPlaylist(Track track, Playlist pl);
 	public List<Track> recommend(long userId) throws TasteException;
 	public List<Track> findByUser(User user);
+	void addTrackToPlaylist(Track track, Playlist pl, User user);
 
 }

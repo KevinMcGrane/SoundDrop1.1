@@ -41,6 +41,9 @@ public class TrackServiceImpl implements TrackService {
 	
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private PlaylistService playlistService;
 
 	@Override
 	public void save(String trackName, String name, String artist, String fileName, Genre genre) {
@@ -95,8 +98,9 @@ public class TrackServiceImpl implements TrackService {
 	}
 	
 	@Override
-	public void addTrackToPlaylist(Track track, Playlist pl) {
-		
+	public void addTrackToPlaylist(Track track, Playlist pl, User user) {
+		pl.getTracks().add(track);
+		playlistService.save(pl, user);
 	}
 
 

@@ -17,11 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import sounddrop.model.Comment;
 import sounddrop.model.Genre;
+import sounddrop.model.Playlist;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.AmazonClient;
 import sounddrop.service.CommentService;
 import sounddrop.service.GenreService;
+import sounddrop.service.PlaylistService;
 import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
 
@@ -43,6 +45,9 @@ public class TrackController {
     
     @Autowired
     private CommentService commentService;
+    
+    @Autowired
+    private PlaylistService playlistService;
 
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -101,6 +106,18 @@ public class TrackController {
 			trackService.update(track.getId());
 			return "redirect:/track/comment/{trackId}";
 		}
+	  
+	  @RequestMapping(value="/{trackId}/addtoplaylist/{playlistName}", method=RequestMethod.POST)
+	  public String addToPlaylist(@PathVariable("trackId") long trackId, @RequestParam("playlistName") String playlistName,
+				BindingResult bindingResult, Model model,
+				Principal principal) {
+		  Playlist pl = playlistService.findByName(playlistName);
+		  Track track = trackService.findByTrackId(trackId);
+		  User user = userService.findByUsername(principal.getName());
+		  trackService.addTrackToPlaylist(track, pl, user);
+		  return "redirect:/welcome/{playlistName}";
+		 
+	  }
 
 	  
 	  @Autowired
