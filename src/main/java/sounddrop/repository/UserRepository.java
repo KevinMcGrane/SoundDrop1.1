@@ -15,11 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     List<User> findFriendsByLname(String lname);
 
-    @Query(
-    	      "select count(*) from User user " +
-    	          "join user.incomingFriendRequests friendRequest " +
-    	          "where user=:user"
-    	  )
-    	  Long countIncomingFriendRequests(@Param("user") User user);
     	
 }

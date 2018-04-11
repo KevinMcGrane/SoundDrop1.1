@@ -257,12 +257,19 @@ public class UserController {
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String users(@RequestParam("searchString") String searchString, Model model, Principal principal) {
-		List<User> userList = userService.findUserByLname(searchString);
+		List<User> userList = userService.findAll();
+		List<User> allList = userService.findAll();
+		List<User> searchList = new ArrayList<>();
+		for (User user : allList) {
+			if (user.getLname().toLowerCase().contains(searchString.toLowerCase()) || user.getFname().toLowerCase().contains(searchString.toLowerCase()) || user.getUsername().toLowerCase().contains(searchString.toLowerCase())) {
+			searchList.add(user);
+			}
+		}
 		String name = principal.getName();
 		User currentUser = userService.findByUsername(name);
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		model.addAttribute("count", incomingRequestsCount);
-		model.addAttribute("userList", userList);
+		model.addAttribute("userList", searchList);
 		return "users";
 	}
 

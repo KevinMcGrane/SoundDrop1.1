@@ -18,6 +18,7 @@ public interface UserService {
 	public void addFriendRequest(User asker, User potentialFriend);
 	public void removeFriends(User user1, User user2);
 	public User find(User user);
+	public List<User> findAll();
 	
 
 }

@@ -168,15 +168,17 @@ public class UserServiceImpl implements UserService {
 	    update(user2);
 	  }
 	
-	public Long countUserIncomingFriendRequests(User user) {
-	    return userRepository.countIncomingFriendRequests(user);
-	  }
+	
 
 	@Override
 	public User findById(Long id) {
 		return userRepository.findOne(id);
 	}
 	
+	@Override
+	public List<User> findAll(){
+		return userRepository.findAll();
+	}
 	
 
 }
