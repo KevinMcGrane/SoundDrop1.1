@@ -1,7 +1,5 @@
 package sounddrop.model;
 
-import java.sql.Time;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +31,8 @@ public class PostText {
 	private User user;
 	
 	private List<Comment> comments;
+	
+	private Post post;
 	
 	public PostText(){
 		
@@ -88,6 +89,15 @@ public class PostText {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	@OneToOne
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 	 

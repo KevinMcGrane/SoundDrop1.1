@@ -42,8 +42,34 @@ public class PostServiceImpl implements PostService{
 	    }
 	 	
 	 	@Override
+	    public void update(PostText postText, Track track, Post post) {
+
+	 		if (post.getPostText() == null) {
+	 			
+	 			post.setTypeTrack(true);
+	 			post.setPublishTime(track.getPublishTime());
+	 			post.setUser(track.getUser());
+	 		}else {
+	 			post.setTypeTrack(false);
+	 			post.setPublishTime(postText.getPublishTime());
+	 			post.setUser(postText.getUser());
+	 		}
+	 		postRepository.save(post);
+	    }
+	 	
+	 	
+	 	
+	 	@Override
 	 	public List<Post> findByUser(User user){
 	 		return postRepository.findByUser(user);
+	 	}
+	 	@Override
+	 	public Post findByTrack(Track track){
+	 		return postRepository.findByTrack(track);
+	 	}
+	 	@Override
+	 	public Post findByPostText(PostText postText){
+	 		return postRepository.findByPostText(postText);
 	 	}
 	 	@Override
 	 	public List<Post> findByUserIn(Set<User> friends){

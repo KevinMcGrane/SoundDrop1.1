@@ -25,6 +25,7 @@ import sounddrop.model.Comment;
 import sounddrop.model.Playlist;
 import sounddrop.model.Post;
 import sounddrop.model.PostText;
+import sounddrop.model.Rating;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.CommentService;
@@ -32,6 +33,7 @@ import sounddrop.service.GenreService;
 import sounddrop.service.PlaylistService;
 import sounddrop.service.PostService;
 import sounddrop.service.PostTextService;
+import sounddrop.service.RatingService;
 import sounddrop.service.Recommender;
 import sounddrop.service.SecurityService;
 import sounddrop.service.TrackService;
@@ -45,6 +47,7 @@ public class UserController {
 
 	@Autowired
 	private PostTextService postTextService;
+
 
 	@Autowired
 	private SecurityService securityService;
@@ -65,7 +68,8 @@ public class UserController {
 	@Autowired
 	private PostService postService;
 	
-	
+	@Autowired
+	private RatingService ratingService;
 
 	@Autowired
 	private PlaylistService playlistService;
@@ -124,8 +128,17 @@ public class UserController {
 		} catch (JSONException jse) {
 		    jse.printStackTrace();
 		}
-
 		List<Post> userFeed = postService.getFeed(friends, currentUser);
+
+		Post post = postService.findById((long) 1);
+		System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiii"+post.getTrack().getComments().size());
+		for (Comment c : post.getTrack().getComments()) {
+			System.out.println("Content: "+ c.getContent());
+		}
+		Track track = trackService.findByTrackId(1);
+		for (Comment c : track.getComments()) {
+			System.out.println("Content: "+ c.getContent());
+		}
 		model.addAttribute("userFeed", userFeed);
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
@@ -224,7 +237,7 @@ public class UserController {
 		String name = principal.getName();
 		User user = userService.findByUsername(name);
 		commentService.save(commentForm, user, postText);
-		postTextService.save(postText, name);
+		postTextService.update(postText, name);
 		return "redirect:/comment/{postTextId}";
 	}
 
@@ -258,6 +271,7 @@ public class UserController {
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String users(@RequestParam("searchString") String searchString, Model model, Principal principal) {
 		List<User> userList = userService.findAll();
+		User currentUser = userService.findByUsername(principal.getName());
 		List<User> allList = userService.findAll();
 		List<User> searchList = new ArrayList<>();
 		for (User user : allList) {
@@ -265,9 +279,20 @@ public class UserController {
 			searchList.add(user);
 			}
 		}
+		List<User> searchListFriends = new ArrayList<>();
+		List<User> searchListOther = new ArrayList<>();
+
+		for (User user : searchList) {
+			if (currentUser.isFriendOf(user)) {
+				searchListFriends.add(user);
+			}else searchListOther.add(user);
+		}
+
+
 		String name = principal.getName();
-		User currentUser = userService.findByUsername(name);
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		model.addAttribute("friends", searchListFriends);
+		model.addAttribute("other", searchListOther);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("userList", searchList);
 		return "users";
@@ -373,5 +398,35 @@ public class UserController {
 			return "post";
 		
 	}
-
+	
+	@RequestMapping(value = { "/rate" }, method = RequestMethod.GET)
+	public String findFriends(@RequestParam(value="rating") float value,@RequestParam(value="id") Long id, Model model, Principal principal) {
+		String name = principal.getName();
+		User currentUser = userService.findByUsername(name);
+		Track track = trackService.findByTrackId(id);
+		Rating rating = new Rating();
+		rating.setRating(value);
+		rating.setTrack(track);
+		rating.setUser(currentUser);
+		ratingService.save(rating);
+		
+		
+		return "redirect:/welcome";
+	}
+	
+	@RequestMapping(value = { "/test" }, method = RequestMethod.GET)
+	public String test(Model model, Principal principal) {
+		String name = principal.getName();
+		User currentUser = userService.findByUsername(name);
+		//Track track = trackService.findByTrackId(id);
+		Rating rating = new Rating();
+		//rating.setTrack(track);
+		rating.setUser(currentUser);
+		ratingService.save(rating);
+		
+		
+		return "testjsp";
+	}
 }
+
+

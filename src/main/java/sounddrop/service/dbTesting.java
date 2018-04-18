@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 
 import sounddrop.model.Genre;
 import sounddrop.model.Playlist;
+import sounddrop.model.Post;
 import sounddrop.model.PostText;
-import sounddrop.model.Rating;
 import sounddrop.model.Role;
 import sounddrop.model.Track;
 import sounddrop.model.User;
@@ -36,6 +36,8 @@ public class dbTesting {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private PostService postService;
 	
 	@Autowired
 	private TrackRepository trackRepository;
@@ -75,7 +77,7 @@ public class dbTesting {
 
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
 		grantedAuthorities.add(new SimpleGrantedAuthority(roleUser.getName()));
-
+/*
 		User user = new User();
 		String password = "test";
 		user.setUsername("kevin97");
@@ -185,145 +187,145 @@ public class dbTesting {
 	     
 	    
 	   Track track3 = new Track();
-	    track3.setTrackName(("Track 3"));
+	    track3.setTrackName(("Rain"));
 	    track3.setGenre(genre1);
-	    track3.setArtist("Artist 3");
+	    track3.setArtist("Bicep");
 	    track3.setUser(user);
 	    track3.setPublishTime(timestamp);
 	    track3.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track3);
 	    
 	    Track track4 = new Track();
-	    track4.setTrackName(("Track 4"));
+	    track4.setTrackName(("Kites"));
 	    track4.setGenre(genre1);
-	    track4.setArtist("Artist 4");
+	    track4.setArtist("Bicep");
 	    track4.setUser(user);
 	    track4.setPublishTime(timestamp);
 	    track4.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track4);
 	    
 	    Track track5 = new Track();
-	    track5.setTrackName(("Track 5"));
+	    track5.setTrackName(("Just"));
 	    track5.setGenre(genre1);
-	    track5.setArtist("Artist 5");
+	    track5.setArtist("Bicep");
 	    track5.setUser(user);
 	    track5.setPublishTime(timestamp);
 	    track5.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track5);
 	    
 	    Track track6 = new Track();
-	    track6.setTrackName(("Track 6"));
+	    track6.setTrackName(("Dahlia"));
 	    track6.setGenre(genre1);
-	    track6.setArtist("Artist 6");
+	    track6.setArtist("Bicep");
 	    track6.setUser(user);
 	    track6.setPublishTime(timestamp);
 	    track6.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track6);
 	    
 	    Track track7 = new Track();
-	    track7.setTrackName(("Track 7"));
+	    track7.setTrackName(("Let You go"));
 	    track7.setGenre(genre1);
-	    track7.setArtist("Artist 7");
+	    track7.setArtist("Bicep");
 	    track7.setUser(user);
 	    track7.setPublishTime(timestamp);
 	    track7.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track7);
 	    
 	    Track track8 = new Track();
-	    track8.setTrackName(("Track 8"));
+	    track8.setTrackName(("Liberate"));
 	    track8.setGenre(genre1);
-	    track8.setArtist("Artist 8");
+	    track8.setArtist("Eric Prydz");
 	    track8.setUser(user);
 	    track8.setPublishTime(timestamp);
 	    track8.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track8);
 	    
 	    Track track9 = new Track();
-	    track9.setTrackName(("Track 9"));
+	    track9.setTrackName(("In the reds"));
 	    track9.setGenre(genre1);
-	    track9.setArtist("Artist 9");
+	    track9.setArtist("Eric Prydz");
 	    track9.setUser(user);
 	    track9.setPublishTime(timestamp);
 	    track9.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track9);
 	    
 	    Track track10 = new Track();
-	    track10.setTrackName(("Track 10"));
+	    track10.setTrackName(("Pjanoo"));
 	    track10.setGenre(genre1);
-	    track10.setArtist("Artist 10");
+	    track10.setArtist("Eric Prydz");
 	    track10.setUser(user);
 	    track10.setPublishTime(timestamp);
 	    track10.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track10);
 	    
 	    Track track11 = new Track();
-	    track11.setTrackName(("Track 11"));
+	    track11.setTrackName(("Call on me"));
 	    track11.setGenre(genre1);
-	    track11.setArtist("Artist 11");
-	    track11.setUser(user);
+	    track11.setArtist("Eric Prydz");
+	    track11.setUser(user2);
 	    track11.setPublishTime(timestamp);
 	    track11.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track11);
 	    
 	    Track track12 = new Track();
-	    track12.setTrackName(("Track 12"));
+	    track12.setTrackName(("New Order"));
 	    track12.setGenre(genre1);
-	    track12.setArtist("Artist 12");
+	    track12.setArtist("Blue Monday");
 	    track12.setUser(user2);
 	    track12.setPublishTime(timestamp);
 	    track12.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track12);
 	    
 	    Track track13 = new Track();
-	    track13.setTrackName(("Trck 13"));
+	    track13.setTrackName(("Firestarter"));
 	    track13.setGenre(genre1);
-	    track13.setArtist("Artist 13");
+	    track13.setArtist("Prodigy");
 	    track13.setUser(user2);
 	    track13.setPublishTime(timestamp);
 	    track13.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track13);
 	    
 	    Track track14 = new Track();
-	    track14.setTrackName(("Track 14"));
+	    track14.setTrackName(("Out of space"));
 	    track14.setGenre(genre1);
-	    track14.setArtist("Artist 14");
+	    track14.setArtist("Prodigy");
 	    track14.setUser(user2);
 	    track14.setPublishTime(timestamp);
 	    track14.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track14);
 	    
 	    Track track15 = new Track();
-	    track15.setTrackName(("Track 15"));
+	    track15.setTrackName(("No Good to Me"));
 	    track15.setGenre(genre1);
-	    track15.setArtist("Artist 15");
-	    track15.setUser(user);
+	    track15.setArtist("Prodigy");
+	    track15.setUser(user2);
 	    track15.setPublishTime(timestamp);
 	    track15.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track15);
 	    
 	    Track track16 = new Track();
-	    track16.setTrackName(("Track 16"));
+	    track16.setTrackName(("Circles"));
 	    track16.setGenre(genre1);
-	    track16.setArtist("Artist 16");
-	    track16.setUser(user);
+	    track16.setArtist("George Fitz");
+	    track16.setUser(user2);
 	    track16.setPublishTime(timestamp);
 	    track16.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track16);
 	    
 	    Track track17 = new Track();
-	    track17.setTrackName(("Track 17"));
+	    track17.setTrackName(("We do what we want"));
 	    track17.setGenre(genre1);
-	    track17.setArtist("Artist 17");
-	    track17.setUser(user);
+	    track17.setArtist("Al Fitz");
+	    track17.setUser(user2);
 	    track17.setPublishTime(timestamp);
 	    track17.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track17);
 	    
 	    Track track18 = new Track();
-	    track18.setTrackName(("Track 18"));
+	    track18.setTrackName(("Sahsa"));
 	    track18.setGenre(genre1);
-	    track18.setArtist("Artist 18");
-	    track18.setUser(user);
+	    track18.setArtist("Refactored");
+	    track18.setUser(user2);
 	    track18.setPublishTime(timestamp);
 	    track18.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track18);
@@ -368,8 +370,82 @@ public class dbTesting {
 	    rating1.setUser(user);
 	    rating1.setTrack(track10);
 	    rating1.setRating(1);
-	    rating1Repository.save(rating1);*/
+	    rating1Repository.save(rating1);
 	    
+	    Post post = new Post();
+	    post.setTrack(track1);
+	    postService.save(null, track1);
+	    
+	    Post post1 = new Post();
+	    post1.setTrack(track2);
+	    postService.save(null, track2);
+	    
+	    Post post2 = new Post();
+	    post2.setTrack(track3);
+	    postService.save(null, track3);
+	    
+	    Post post3 = new Post();
+	    post3.setTrack(track4);
+	    postService.save(null, track4);
+	    
+	    Post post4 = new Post();
+	    post4.setTrack(track5);
+	    postService.save(null, track5);
+	    
+	    Post post5 = new Post();
+	    post5.setTrack(track6);
+	    postService.save(null, track6);
+	    
+	    Post post6 = new Post();
+	    post6.setTrack(track7);
+	    postService.save(null, track7);
+	    
+	    Post post7 = new Post();
+	    post7.setTrack(track8);
+	    postService.save(null, track8);
+	    
+	    Post post8 = new Post();
+	    post8.setTrack(track9);
+	    postService.save(null, track9);
+	    
+	    Post post9 = new Post();
+	    post9.setTrack(track10);
+	    postService.save(null, track10);
+	    
+	    Post post10 = new Post();
+	    post10.setTrack(track11);
+	    postService.save(null, track11);
+	    
+	    Post post11 = new Post();
+	    post11.setTrack(track12);
+	    postService.save(null, track12);
+	    
+	    Post post12 = new Post();
+	    post12.setTrack(track13);
+	    postService.save(null, track13);
+	   
+	    Post post13 = new Post();
+	    post13.setTrack(track14);
+	    postService.save(null,track14);
+	    
+	    Post post14 = new Post();
+	    post14.setTrack(track15);
+	    postService.save(null, track15);
+	    
+	    Post post15 = new Post();
+	    post15.setTrack(track16);
+	    postService.save(null, track16);
+	    
+	    Post post16 = new Post();
+	    post16.setTrack(track17);
+	    postService.save(null, track17);
+	    
+	    Post post17 = new Post();
+	    post17.setTrack(track18);
+	    postService.save(null, track18);
+	    
+	    
+	   
 	    
 	    List<Track> tracks = new ArrayList<Track>();
 	    tracks.add(track2);
@@ -391,13 +467,13 @@ public class dbTesting {
 	    
 	    List<Track> tracks3 = trackService.findByUser(user);
 	    Playlist pl3 = new Playlist();
-	    pl3.setName("All Tracks");
+	    pl3.setName("AllTracks");
 	    pl3.setTracks(tracks3);
 	    pl3.setUser(user); 
 	    
 	    playlistRepository.save(pl1);
 	    playlistRepository.save(pl2);
-	    playlistRepository.save(pl3);
+	    playlistRepository.save(pl3);*/
 	}
 
 }

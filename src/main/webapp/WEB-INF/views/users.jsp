@@ -51,7 +51,26 @@
 				<div id="logbox">
 					<h2>User list</h2>
 					<div class="panel-group">
-						<c:forEach items="${userList}" var="user">
+						<c:forEach items="${friends}" var="user">
+							<div class="panel panel-default">
+								<div class="panel-body">
+												<div class="profile-userpic">
+												<a href=${contextPath}/user/${user.username}>
+					<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:otherwise>
+						</c:choose></a>
+				</div>
+				<div class="profile-usertitle">
+				<a href=${contextPath}/user/${user.username}>
+									<b>${user.fname}
+										${user.lname}</b></a>
+								</div>
+								</div>
+							</div>
+						</c:forEach>
+						<c:forEach items="${other}" var="user">
 							<div class="panel panel-default">
 								<div class="panel-body">
 												<div class="profile-userpic">

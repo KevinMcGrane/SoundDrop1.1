@@ -40,6 +40,7 @@ body {
   border-radius: 50% !important;
 }
 
+
 .profile-userpic1 img {
 	max-width: 480px;
 	width: 100%;
@@ -228,4 +229,9 @@ label1 {
   margin-bottom: 5px;
   font-weight: bold;
   cursor: pointer;
+}
+
+playlistAdd {
+	    display:inline-block;
+	
 }

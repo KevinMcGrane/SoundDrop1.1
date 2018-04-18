@@ -46,7 +46,7 @@
 
 		<div class="col-lg-4">
 			<div id="logbox">
-				<jsp:include page="mediaplayel.jsp"></jsp:include>
+				<jsp:include page="mediaplayer.jsp"></jsp:include>
 			</div>
 
 		</div>
@@ -102,7 +102,7 @@
 				</div>
 		<div class="col-md-3">
 			<jsp:include page="sidebar.jsp"></jsp:include>
-			<form:form commandName="playlistForm" action="${contextPath}/playlist" method="post" class="navbar-form navbar-right">
+			<form:form commandName="playlistForm" action="${contextPath}/library" method="post" class="navbar-form navbar-right">
 	
 										<label for="name" class="col-sm-2 control-label">New Playlist:</label>
 										<div class="input-group">

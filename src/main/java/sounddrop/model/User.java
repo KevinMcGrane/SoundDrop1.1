@@ -28,7 +28,7 @@ public class User {
     private List<Comment> comments;
     private List<Post> post;
 
-
+    private List<Rating> rating;
 
 	private Set<User> friends;
 	private Set<User> incomingFriendRequests;
@@ -227,14 +227,19 @@ public class User {
 	    return id.equals(user.id);
 	  }
 
-	  @Override
-	  public int hashCode() {
-	    return id.hashCode();
-	  }
+	
+	  
+    
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    public List<Rating> getRating() {
+		return rating;
+	}
 
-    
-    
-    public String toString()
+	public void setRating(List<Rating> rating) {
+		this.rating = rating;
+	}
+
+	public String toString()
     {
     	return "User [id=" + id + ", name = " + username + ", password= " + password + ", password confirmed " + passwordConfirm + ",Bio " + bio +"]";
     }

@@ -89,6 +89,9 @@ public class TrackController {
 			model.addAttribute("commentForm", new Comment());
 			List<Comment> comments = track.getComments();
 			model.addAttribute("comments", comments);
+			for (Comment c : comments) {
+				System.out.println(c.getContent());
+			}
 			return "trackComments";
 		}
 	  
@@ -107,8 +110,8 @@ public class TrackController {
 			return "redirect:/track/comment/{trackId}";
 		}
 	  
-	  @RequestMapping(value="/{trackId}/addtoplaylist/{playlistName}", method=RequestMethod.POST)
-	  public String addToPlaylist(@PathVariable("trackId") long trackId, @RequestParam("playlistName") String playlistName,
+	  @RequestMapping(value="/addtoplaylist", method=RequestMethod.GET)
+	  public String addToPlaylist(@RequestParam(value="playlist") String playlistName,@RequestParam(value="id") Long trackId,
 				BindingResult bindingResult, Model model,
 				Principal principal) {
 		  Playlist pl = playlistService.findByName(playlistName);
@@ -119,6 +122,8 @@ public class TrackController {
 		 
 	  }
 
+	  
+	  
 	  
 	  @Autowired
 	    TrackController(AmazonClient amazonClient) {

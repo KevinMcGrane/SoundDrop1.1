@@ -22,5 +22,10 @@ public interface PostService {
 	Post findById(Long id);
 
 	void delete(Post post);
+	void update(PostText postText, Track track, Post post);
+
+	Post findByTrack(Track track);
+
+	Post findByPostText(PostText postText);
 
 }

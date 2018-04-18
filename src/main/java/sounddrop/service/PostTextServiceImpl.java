@@ -4,22 +4,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import sounddrop.model.Post;
 import sounddrop.model.PostText;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.PostTextRepository;
-import sounddrop.repository.RoleRepository;
 import sounddrop.repository.TrackRepository;
 import sounddrop.repository.UserRepository;
 
@@ -56,6 +51,19 @@ public class PostTextServiceImpl implements PostTextService {
     }
 
  
+    @Override
+    public void update(PostText postText, String name) {
+		User user = userRepository.findByUsername(name);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        postText.setContent(postText.getContent()); 
+        postText.setPublishTime(timestamp);
+		postText.setUser(user);
+		postText.setComments(postText.getComments());
+		postTextRepository.save(postText);
+		Post post = postService.findByPostText(postText);
+		postService.update(postText, null, post);
+        
+    }
     @Override
 	public List<PostText> getAllPostText() {
     	List<PostText> postTextList = postTextRepository.findAll();

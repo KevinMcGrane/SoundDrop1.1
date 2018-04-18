@@ -18,5 +18,6 @@ public interface PostTextService {
 
 	List<PostText> findByUser(String username);
 	public PostText findByPostTextId(long id);
+	void update(PostText postText, String name);
 	
 }

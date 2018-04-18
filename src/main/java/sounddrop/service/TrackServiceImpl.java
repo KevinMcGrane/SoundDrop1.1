@@ -24,7 +24,7 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import sounddrop.model.Genre;
 import sounddrop.model.Playlist;
-import sounddrop.model.PostText;
+import sounddrop.model.Post;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.TrackRepository;
@@ -44,6 +44,7 @@ public class TrackServiceImpl implements TrackService {
 	
 	@Autowired
 	private PlaylistService playlistService;
+	
 
 	@Override
 	public void save(String trackName, String name, String artist, String fileName, Genre genre) {
@@ -108,8 +109,13 @@ public class TrackServiceImpl implements TrackService {
 	public void update(long id) {
 		
 			Track track = findByTrackId(id);
+			track.setUser(track.getUser());
+			track.setArtist(track.getArtist());
+			track.setGenre(track.getGenre());
 			track.setComments(track.getComments());
 			trackRepository.save(track);
+			Post post = postService.findByTrack(track);
+			postService.update(null, track, post);
 
 		
 	}

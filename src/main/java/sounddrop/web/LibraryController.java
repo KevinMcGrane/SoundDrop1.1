@@ -131,7 +131,7 @@ public class LibraryController {
 		return "library";
 	}
 	@RequestMapping(method = RequestMethod.POST)
-	public String addPostText(@ModelAttribute("playlistForm") Playlist playlistForm, BindingResult bindingResult,
+	public String addPlaylist(@ModelAttribute("playlistForm") Playlist playlistForm, BindingResult bindingResult,
 			Model model, Principal principal) {
 
 		if (bindingResult.hasErrors()) {
