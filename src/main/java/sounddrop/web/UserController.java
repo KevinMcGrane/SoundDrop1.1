@@ -34,7 +34,6 @@ import sounddrop.service.PlaylistService;
 import sounddrop.service.PostService;
 import sounddrop.service.PostTextService;
 import sounddrop.service.RatingService;
-import sounddrop.service.Recommender;
 import sounddrop.service.SecurityService;
 import sounddrop.service.TrackService;
 import sounddrop.service.UserService;
@@ -350,17 +349,17 @@ public class UserController {
 	// return "users";
 	// }
 
-	@RequestMapping(value = { "/friendssearch" }, method = RequestMethod.GET)
-	public String findFriends(@RequestParam("searchTerm") String searchTerm, Model model, Principal principal) {
-		List<User> userList = userService.findFriends(searchTerm);
-		String name = principal.getName();
-		User currentUser = userService.findByUsername(name);
-		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		model.addAttribute("count", incomingRequestsCount);
-		model.addAttribute("userList", userList);
-		return "users";
-	}
-	
+//	@RequestMapping(value = { "/friendssearch" }, method = RequestMethod.GET)
+//	public String findFriends(@RequestParam("searchTerm") String searchTerm, Model model, Principal principal) {
+//		List<User> userList = userService.findFriends(searchTerm);
+//		String name = principal.getName();
+//		User currentUser = userService.findByUsername(name);
+//		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+//		model.addAttribute("count", incomingRequestsCount);
+//		model.addAttribute("userList", userList);
+//		return "users";
+//	}
+//	
 	@RequestMapping(value = "playlist/{playlistName}", method = RequestMethod.GET)
 	public String playlist(@PathVariable String playlistName, Model model, Principal principal) {
 		String username = principal.getName();

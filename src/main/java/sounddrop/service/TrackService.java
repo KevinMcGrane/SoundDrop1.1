@@ -13,7 +13,7 @@ import sounddrop.model.User;
 public interface TrackService {
 	public void save (String trackName, String name, String artist, String fileName, Genre genre);
 	public List<Track> getAllTrack();
-	public List<Track> getTrackFeed(Set<User> friends, User user);
+	//public List<Track> getTrackFeed(Set<User> friends, User user);
 	public void delete(Track track);
 	public Track findByTrackId(long id);
 	public void update(long id);

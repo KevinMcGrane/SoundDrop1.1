@@ -72,7 +72,6 @@ public class AmazonClient {
 	        AudioFormat format = audioInputStream.getFormat();
 	        long frames = audioInputStream.getFrameLength();
 	        double durationInSeconds = (frames+0.0) / format.getFrameRate();  
-	        System.out.println(durationInSeconds/60);
             String fileName = generateFileName(multipartFile);
             System.out.println(fileName);
             fileUrl = endpointUrl + "/" + trackBucketName + "/" + fileName;

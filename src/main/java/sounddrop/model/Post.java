@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
+//This class used to treat tracks or test posts as a "post" so they can be sorted as one list on the a feed or profile.
 @Entity
 public class Post {
 	private Long id;
