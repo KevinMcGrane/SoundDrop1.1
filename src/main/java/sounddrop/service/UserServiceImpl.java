@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PostService postService;
     
+    //Save user
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     
+    //Update user
     @Override
     public void update(User user) {
         user.setPassword(user.getPassword());
@@ -67,30 +69,33 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    
+    //Find user by username
     @Override
     public User findByUsername(String username) {
     	return userRepository.findByUsername(username);
     }
     
-   
     @Override
     public User find(User user) {
         return findByUsername(user.getUsername());
       }
     
+    //Get all user
     @Override
     public List<User> getAllUser() {
     	List<User> userList = userRepository.findAll();
     	
     	return userList;
 	}
+    
+    //Find user by last name
     @Override
     public List<User> findUserByLname(String lname){
     	List<User> userList = userRepository.findUserByLname(lname);	
     	return userList;
     }
 	
+    //Confirm friend request method
     @Override
 	public void addFriend(User userMe, User userFriend) {
 		userMe = find(userMe);
@@ -124,6 +129,7 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+    //Cancel friend request
 	@Override
 	public void removeFriendRequests(User user1, User user2) {
 	    user1 = find(user1);
@@ -136,7 +142,7 @@ public class UserServiceImpl implements UserService {
 	    update(user2);
 	  }
 	
-	
+	//Add friend request
 	@Override
 	public void addFriendRequest(User asker, User potentialFriend) {
 	    asker = find(asker);
@@ -149,14 +155,16 @@ public class UserServiceImpl implements UserService {
 	    update(asker);
 	  }
 
-	@Override
-	public List<User> findFriends(String lname) {
-    	List<User> userList = userRepository.findFriendsByLname(lname);	
-		return userList;
-	}
+//	//
+//	@Override
+//	public List<User> findFriends(String lname) {
+//    	List<User> userList = userRepository.findFriendsByLname(lname);	
+//		return userList;
+//	}
 
 	
 
+	//Remove friend
 	@Override
 	public void removeFriends(User user1, User user2) {
 	    user1 = find(user1);
@@ -170,12 +178,13 @@ public class UserServiceImpl implements UserService {
 	  }
 	
 	
-
+	//Find user by id
 	@Override
 	public User findById(Long id) {
 		return userRepository.findOne(id);
 	}
 	
+	//Find all user
 	@Override
 	public List<User> findAll(){
 		return userRepository.findAll();

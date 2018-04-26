@@ -11,6 +11,7 @@ public class RatingServiceImpl implements RatingService{
 	@Autowired
 	RatingRepository ratingRepository;
 
+	//Save rating
 	@Override
 	public void save(Rating rating) {
 		ratingRepository.save(rating);

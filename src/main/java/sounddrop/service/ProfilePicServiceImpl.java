@@ -23,6 +23,7 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 	@Autowired
 	UserService userService;
 	
+	//Save profile pic details to MySql
 	@Override
 	public void save(String name, String fileName) {
 		ProfilePic newPic = new ProfilePic();
@@ -34,7 +35,6 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 		profilePicRepository.save(newPic);	
 		user.setProfilePic(newPic);
 		userService.update(user);
-		System.out.println(user.getProfilePic());
 	}
 
 }

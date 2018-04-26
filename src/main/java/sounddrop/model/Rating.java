@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+//Users rating of songs, used then to make recommendations to users
 @Entity
 @Table(name="taste_preferences")
 public class Rating {

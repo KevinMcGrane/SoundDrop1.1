@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+//Comment on tracks or text posts
 @Entity
 @Table(name = "comment")
 public class Comment {

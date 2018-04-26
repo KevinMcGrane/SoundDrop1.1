@@ -14,7 +14,7 @@ public interface PostTextService {
 	public List<PostText> getAllPostText();
 
 
-	List<PostText> getFeed(Set<User> friends,User user);
+	//List<PostText> getFeed(Set<User> friends,User user);
 
 	List<PostText> findByUser(String username);
 	public PostText findByPostTextId(long id);

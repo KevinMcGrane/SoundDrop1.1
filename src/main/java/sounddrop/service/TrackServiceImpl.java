@@ -46,6 +46,7 @@ public class TrackServiceImpl implements TrackService {
 	private PlaylistService playlistService;
 	
 
+	//Save track details to mysql
 	@Override
 	public void save(String trackName, String name, String artist, String fileName, Genre genre) {
 		Track newTrack = new Track();
@@ -62,7 +63,7 @@ public class TrackServiceImpl implements TrackService {
 		
 	}
 	
-	
+	//Get all tracks
 	@Override
 	public List<Track> getAllTrack() {
 		List<Track> trackList = trackRepository.findAll();
@@ -70,41 +71,45 @@ public class TrackServiceImpl implements TrackService {
 		return trackList;
 	}
 
-	@Override
-	public List<Track> getTrackFeed(Set<User> friends, User user) {
-		List<Track> trackList = trackRepository.findByUserIn(friends);
-		List<Track> myTracks = trackRepository.findByUser(user);
-		List<Track> newList = new ArrayList<Track>();
-    	newList.addAll(trackList);
-    	newList.addAll(myTracks);
-    	class OutcomeAscComparator implements Comparator<Track>
-	    {
-	        public int compare(Track left, Track right) {
-	            return right.getPublishTime().compareTo(left.getPublishTime());
-	        }
-	    }
-    	Collections.sort(newList, new OutcomeAscComparator());
+	
+//	@Override
+//	public List<Track> getTrackFeed(Set<User> friends, User user) {
+//		List<Track> trackList = trackRepository.findByUserIn(friends);
+//		List<Track> myTracks = trackRepository.findByUser(user);
+//		List<Track> newList = new ArrayList<Track>();
+//    	newList.addAll(trackList);
+//    	newList.addAll(myTracks);
+//    	class OutcomeAscComparator implements Comparator<Track>
+//	    {
+//	        public int compare(Track left, Track right) {
+//	            return right.getPublishTime().compareTo(left.getPublishTime());
+//	        }
+//	    }
+//    	Collections.sort(newList, new OutcomeAscComparator());
+//
+//		return newList;
+//	}
 
-		return newList;
-	}
-
+	//Delete track
 	@Override
 	public void delete(Track track) {
 		trackRepository.delete(track);
 	}
 
+	//Find track by 
 	@Override
 	public Track findByTrackId(long id) {
 		return trackRepository.findById(id);
 	}
 	
+	//Add a track to provided playlist
 	@Override
 	public void addTrackToPlaylist(Track track, Playlist pl, User user) {
 		pl.getTracks().add(track);
 		playlistService.save(pl, user);
 	}
 
-
+	//Update tack
 	@Override
 	public void update(long id) {
 		
@@ -120,6 +125,7 @@ public class TrackServiceImpl implements TrackService {
 		
 	}
 	
+	//Method recommends tracks based on what other users with similar tastes like
 	@Override
 	public List<Track> recommend(long userId) throws TasteException
 	{
@@ -149,7 +155,7 @@ public class TrackServiceImpl implements TrackService {
 
 		return recommendedTracks;
 	}
-	
+	//Find track by user
 	@Override
 	public List<Track> findByUser(User user){
 		return trackRepository.findByUser(user);

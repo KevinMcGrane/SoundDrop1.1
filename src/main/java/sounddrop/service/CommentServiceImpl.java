@@ -20,7 +20,7 @@ public class CommentServiceImpl implements CommentService{
     private CommentRepository commentRepository;
 
     
-	
+	//Save comment on post
 	@Override
     public void save(Comment comment, User user, PostText post) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -31,6 +31,7 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.save(comment);
     }
 	
+	//Save comment on track
 	@Override
     public void saveTrackComment(Comment comment, User user, Track track) {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());

@@ -24,6 +24,8 @@ public class PostServiceImpl implements PostService{
 	TrackService trackService;
 	@Autowired
 	PostTextService postTextService;
+	
+	//Save post
 	 	@Override
 	    public void save(PostText postText, Track track) {
 	 		Post post = new Post();
@@ -41,6 +43,7 @@ public class PostServiceImpl implements PostService{
 	 		postRepository.save(post);
 	    }
 	 	
+	 	//update post
 	 	@Override
 	    public void update(PostText postText, Track track, Post post) {
 
@@ -58,24 +61,31 @@ public class PostServiceImpl implements PostService{
 	    }
 	 	
 	 	
-	 	
+	 	//Find post by user
 	 	@Override
 	 	public List<Post> findByUser(User user){
 	 		return postRepository.findByUser(user);
 	 	}
+	 	
+	 	//Find post by track
 	 	@Override
 	 	public Post findByTrack(Track track){
 	 		return postRepository.findByTrack(track);
 	 	}
+	 	
+	 	//Find post by posttext
 	 	@Override
 	 	public Post findByPostText(PostText postText){
 	 		return postRepository.findByPostText(postText);
 	 	}
+	 	
+	 	//Find posts belonging to friends
 	 	@Override
 	 	public List<Post> findByUserIn(Set<User> friends){
 	 		return postRepository.findByUserIn(friends);
 	 	}
 
+	 	//Get posts belonging to me and my friends and combine and sort to create a "feed"
 	 	@Override
 	 	public List<Post> getFeed(Set<User> friends, User user){
 	 		
@@ -97,11 +107,14 @@ public class PostServiceImpl implements PostService{
 	    	return newList;
 	 		
 	 	}
+	 	
+	 	//Return post by id
 	 	@Override
 	 	public Post findById(Long id) {
 	 		return postRepository.findById(id);
 	 	}
 	 	
+	 	//Delete post
 	 	@Override
 	 	public void delete(Post post) {
 	 		postRepository.delete(post);
