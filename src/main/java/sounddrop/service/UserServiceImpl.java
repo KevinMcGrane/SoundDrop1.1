@@ -102,6 +102,7 @@ public class UserServiceImpl implements UserService {
 
 		    update(userMe);
 		    update(userFriend);
+		    
 	}
 	
 	@Override
