@@ -98,30 +98,30 @@ public class UserServiceImpl implements UserService {
 		 userMe.getFriends().add(userFriend);
 		    userFriend.getFriends().add(userMe);
 		    userMe.getIncomingFriendRequests().remove(userFriend);
-		    userFriend.getIncomingFriendRequests().remove(userMe);
+		    userFriend.getOutgoingFriendRequests().remove(userMe);
 
 		    update(userMe);
 		    update(userFriend);
 	}
 	
-//	@Override
-//	public boolean isUserFollowedBy(User userMe, String username) {
-//		
-//		//If the method is invoked for myself, return false.
-//		if(userMe.getUsername().equals(username)) {
-//			return false;
-//		}
-//
-//		//Check each person that I follow whether they use searched username.
-//		for(User item : userMe.getFriends()) {
-//			if(item.getUsername().equals(username)) {
-//				return true;
-//			}
-//		}
-//
-//		//None of the people I follow use given username, hence return false.
-//		return false;
-//	}
+	@Override
+	public boolean isUserFollowedBy(User userMe, String username) {
+		
+		//If the method is invoked for myself, return false.
+		if(userMe.getUsername().equals(username)) {
+			return false;
+		}
+
+		//Check each person that I follow whether they use searched username.
+		for(User item : userMe.getFriends()) {
+			if(item.getUsername().equals(username)) {
+				return true;
+			}
+		}
+
+		//None of the people I follow use given username, hence return false.
+		return false;
+	}
 
 	@Override
 	public void removeFriendRequests(User user1, User user2) {

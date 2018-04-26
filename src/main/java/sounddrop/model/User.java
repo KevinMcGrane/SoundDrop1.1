@@ -228,7 +228,7 @@ public class User {
 	  }
 
 	
-	  
+	 
     
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     public List<Rating> getRating() {

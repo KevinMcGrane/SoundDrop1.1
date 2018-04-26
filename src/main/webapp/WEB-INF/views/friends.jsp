@@ -51,7 +51,7 @@
 									<c:choose>
 				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width: 50px; height: 50px;"></c:when>
 				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
-						class="img-responsive" style="width: 50px; height: 50px;""></c:otherwise>
+						class="img-responsive" style="width: 50px; height: 50px;"></c:otherwise>
 						</c:choose></a>
 							</div>
 							<div class="profile-usertitle-friends">
@@ -82,10 +82,11 @@
 										${user.lname}</b></a>
 							</div>
 							<div class="profile-userpic-friends">
-								<a href=${contextPath}/user/${user.username}> <img
-									src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/noprofile.png"
-									class="img-responsive" alt=""
-									style="width: 50px; height: 50px;"></a>
+								<a href=${contextPath}/user/${user.username}> <c:choose>
+								<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width: 50px; height: 50px;"></c:when>
+				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
+						class="img-responsive" style="width: 50px; height: 50px;"></c:otherwise>
+						</c:choose></a>
 							</div>
 
 							<form:form action="${contextPath}/user/${user.username}/add"
@@ -107,32 +108,12 @@
 				</div>
 			</div>
 
-			<div class="row profile">
+			
 				<div class="col-md-3">
-					<div class="profile-sidebar">
-						<!-- SIDEBAR MENU -->
-						<div class="profile-usermenu">
-							<ul class="nav">
-								<li class="active"><a href="${contextPath}/welcome"> <i
-										class="glyphicon glyphicon-home"></i> Overview
-								</a></li>
-								<li><a href="${contextPath}/settings"> <i
-										class="glyphicon glyphicon-user"></i> Account Settings
-								</a></li>
-								<li><a href="#" target="_blank"> <i
-										class="glyphicon glyphicon-ok"></i> Tasks
-								</a></li>
-								<li><a href="#"> <i class="glyphicon glyphicon-flag"></i>
-										Help
-								</a></li>
-							</ul>
-						</div>
-						<!-- END MENU -->
-					</div>
+					<jsp:include page="sidebar.jsp"></jsp:include>
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<!-- /container -->
 	<script

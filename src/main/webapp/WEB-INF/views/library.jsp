@@ -35,7 +35,78 @@
 		value="${_csrf.token}" />
 </form>
 
+<script type="text/javascript">
+ 
+function encodeValue(val)
+{
+ var encodedVal;
+ if (!encodeURIComponent)
+ {
+   encodedVal = escape(val);
+   /* fix the omissions */
+   encodedVal = encodedVal.replace(/@/g, '%40');
+   encodedVal = encodedVal.replace(/\//g, '%2F');
+   encodedVal = encodedVal.replace(/\+/g, '%2B');
+ }
+ else
+ {
+   encodedVal = encodeURIComponent(val);
+   /* fix the omissions */
+   encodedVal = encodedVal.replace(/~/g, '%7E');
+   encodedVal = encodedVal.replace(/!/g, '%21');
+   encodedVal = encodedVal.replace(/\(/g, '%28');
+   encodedVal = encodedVal.replace(/\)/g, '%29');
+   encodedVal = encodedVal.replace(/'/g, '%27');
+ }
+ /* clean up the spaces and return */
+ return encodedVal.replace(/\%20/g,'+'); 
+}
+ 
+function createXHR()
+{
+   try { return new XMLHttpRequest(); } catch(e) {}
+   try { return new ActiveXObject("Msxml2.XMLHTTP.6.0"); } catch (e) {}
+   try { return new ActiveXObject("Msxml2.XMLHTTP.3.0"); } catch (e) {}
+   try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
+   try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
+ 
+   return null;
+}
+ 
+function sendRequest(url, payload)
+{
+    var xhr = createXHR();
+ 
+    if (xhr)
+     {
+       xhr.open("GET",url + "?" + payload,true);
+       xhr.onreadystatechange = function(){handleResponse(xhr);};
+       xhr.send(null);
+     }
+ 
+}
+ 
 
+ 
+ 
+function rate(rating)
+{
+    var url = "http://localhost:8080/rate";
+    var payload = "rating=" + rating;
+    payload += "&response=text";
+    sendRequest(url, payload);
+}
+ 
+window.onload = function () 
+{ 
+ var radios = document.getElementsByName('rating');
+ for (var i = 0; i < radios.length; i++)
+  {
+   radios[i].onclick = function (){rate(this.value);}; 
+  }
+};
+
+</script>
 
 </head>
 <body>
@@ -54,11 +125,24 @@
 
 		<div class="col-lg-0"></div>
 				<div class="col-lg-5"><h3><b>Tracks you may like</b></h3>
+				<c:if test="${empty recommendedTracks}">
+				<h4><b>Start rating tracks to recieve recommendations</b></h4>
+				</c:if>
 				<c:forEach items="${recommendedTracks}" var="track">
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<b><a href=${contextPath}/user/${track.user.username}>${track.user.fname}
 										${track.user.lname}</a></b> posted:
+										<form action="#" method="get" name="ratingForm">
+							Rate this track: <input type="radio" name="rating"
+								value="1&id=${post.track.id}" /> 1 <input type="radio"
+								name="rating" value="2&id=${post.track.id}" /> 2 <input
+								type="radio" name="rating" value="3&id=${post.track.id}" /> 3 <input
+								type="radio" name="rating" value="4&id=${post.track.id}" /> 4 <input
+								type="radio" name="rating" value="5&id=${post.track.id}" /> 5
+
+
+						</form>
 							</div>
 							<div class="panel-body"><b>Artist:</b>${track.artist}<br><b>Name:</b>${track.trackName}<br><b>Genre:</b>${track.genre.name}<br><div
 									id="mainwrap">

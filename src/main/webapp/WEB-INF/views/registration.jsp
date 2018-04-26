@@ -61,8 +61,8 @@
 
 		<div class="row main">
 			<div class="col-lg-5 description">
-				<h1>Sound Drop</h1>
-				<p class="lead">Welcome!</p>
+				
+				
 			</div>
 
 			<div class="col-lg-7">

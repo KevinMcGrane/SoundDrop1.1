@@ -111,17 +111,19 @@ public class UserController {
 		List<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 				JSONObject jObject = new JSONObject();
+				int i = 1;
 		try
 		{
 		    JSONArray jArray = new JSONArray();
 		    for (Track track : trackList)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
+		         trackJSON.put("track", i);
 		         trackJSON.put("name", track.getTrackName());
 		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
+		         i++;
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);
@@ -130,15 +132,15 @@ public class UserController {
 		}
 		List<Post> userFeed = postService.getFeed(friends, currentUser);
 
-		Post post = postService.findById((long) 1);
-		System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiii"+post.getTrack().getComments().size());
-		for (Comment c : post.getTrack().getComments()) {
-			System.out.println("Content: "+ c.getContent());
-		}
-		Track track = trackService.findByTrackId(1);
-		for (Comment c : track.getComments()) {
-			System.out.println("Content: "+ c.getContent());
-		}
+//		Post post = postService.findById((long) 1);
+//		System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiii"+post.getTrack().getComments().size());
+//		for (Comment c : post.getTrack().getComments()) {
+//			System.out.println("Content: "+ c.getContent());
+//		}
+//		Track track = trackService.findByTrackId(1);
+//		for (Comment c : track.getComments()) {
+//			System.out.println("Content: "+ c.getContent());
+//		}
 		model.addAttribute("userFeed", userFeed);
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
@@ -160,17 +162,19 @@ public class UserController {
 		List<Track> trackList = trackService.findByUser(currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		JSONObject jObject = new JSONObject();
+		int i = 1;
 		try
 		{
 		    JSONArray jArray = new JSONArray();
 		    for (Track track : playlist)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
+		         trackJSON.put("track", i);
 		         trackJSON.put("name", track.getTrackName());
 		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
+		         i++;
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);
@@ -314,11 +318,22 @@ public class UserController {
 	@RequestMapping(value = "user/{username}", method = RequestMethod.GET)
 	public String userProfile(@PathVariable String username, Model model, Principal principal) {
 		User user = userService.findByUsername(username);
-		model.addAttribute("user", user);
+		
 		String name = principal.getName();
+		
 		List<Post> userFeed = postService.findByUser(user);
 		User currentUser = userService.findByUsername(name);
+		Set<User> of = currentUser.getOutgoingFriendRequests();
+		if (of.contains(user)) {
+			System.out.println("true");
+		}else {
+			System.out.println(("false"));
+		}
+		for (User u : of) {
+			System.out.println(u.getUsername());
+		}
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
+		model.addAttribute("user", user);
 		model.addAttribute("userFeed", userFeed);
 		model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("currentUser", currentUser);
@@ -371,17 +386,19 @@ public class UserController {
 		List<Track> trackList = trackService.findByUser(currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		JSONObject jObject = new JSONObject();
+		int i = 1;
 		try
 		{
 		    JSONArray jArray = new JSONArray();
 		    for (Track track : playlist)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
+		         trackJSON.put("track", i);
 		         trackJSON.put("name", track.getTrackName());
 		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
+		         i++;
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);

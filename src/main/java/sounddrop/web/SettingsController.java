@@ -73,22 +73,10 @@ public class SettingsController {
 	        String name = principal.getName(); 
 	        this.amazonClient.uploadPic(file, name);
 	        
-	        return "redirect:/welcome";
+	        return "redirect:/settings?bio_success";
 	    }
 	  
-/*	@RequestMapping(value = "/password", method = RequestMethod.POST)
-	public String password(@ModelAttribute PasswordSettings passwordSettings, Model model, Principal principal,
-			User user, BCryptPasswordEncoder bCryptPasswordEncoder, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-            return "settings";
-        }
-		String name = principal.getName();
-		user = userService.findByUsername(name);
-		user.setPassword(bCryptPasswordEncoder.encode(passwordSettings.getPassword()));
-		userService.save(user);
 
-		return "redirect:/settings?password_success";
-	}*/
 
 	public static class BioSettings {
 		private String bio;

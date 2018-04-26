@@ -110,7 +110,7 @@ public class TrackController {
 			return "redirect:/track/comment/{trackId}";
 		}
 	  
-	  @RequestMapping(value="/addtoplaylist", method=RequestMethod.GET)
+	  @RequestMapping(value="/addtoplaylist", method=RequestMethod.POST)
 	  public String addToPlaylist(@RequestParam(value="playlist") String playlistName,@RequestParam(value="id") Long trackId,
 				BindingResult bindingResult, Model model,
 				Principal principal) {

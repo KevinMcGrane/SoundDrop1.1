@@ -37,7 +37,12 @@
 	<jsp:include page="navbar.jsp"></jsp:include>
 	<div class="row profile">
 		<div class="col-md-3">
-			<div class="profile-sidebar">
+			
+		</div>
+		<div class="col-md-6">
+			<div id="logbox">
+				<h2 style="text-align: center"><b>Edit your details</b></h2>
+				<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
 				<c:choose>
@@ -48,7 +53,7 @@
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
-				<div class="profile-usertitle">
+				<div class="profile-usertitle" style="text-align: center">
 					<div class="profile-usertitle-name">
 					<div class="form-group">
 					Profile Pic:<br>
@@ -84,10 +89,6 @@
 
 				<!-- END MENU -->
 			</div>
-		</div>
-		<div class="col-md-6">
-			<div id="logbox">
-				<h2>Welcome ${pageContext.request.userPrincipal.name}</h2>
 							<!-- 			<form:form action="${contextPath}/settings/password" method="post">
 				
 					 	<div class="form-group ${status.error ? 'has-error' : ''}">

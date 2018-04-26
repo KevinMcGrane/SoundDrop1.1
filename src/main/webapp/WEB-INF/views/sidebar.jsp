@@ -26,7 +26,7 @@
 							<li><a href="${contextPath}/settings"> <i
 									class="glyphicon glyphicon-user"></i> Account Settings
 							</a></li>
-							<li><a href="${contextPath}/library/AllTracks"> <i
+							<li><a href="${contextPath}/library"> <i
 									class="glyphicon glyphicon-music"></i> Discover
 							</a></li>
 						</ul>

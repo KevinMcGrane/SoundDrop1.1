@@ -93,6 +93,19 @@ window.onload = function ()
 };
 
 </script>
+<script>
+function add() {
+       
+       $.ajax({ // create an AJAX call...
+           data: $(this).serialize(), // get the form data
+           
+           url: $(this).attr('http://localhost:8080/track/addtoplaylist?' + data), // the file to call
+           xmlhttp.open("POST",url,true);
+       });
+       return false; // cancel original event to prevent form submitting
+    });
+});
+</script>
 </head>
 <body>
 	<div class="panel-group">
@@ -147,14 +160,15 @@ window.onload = function ()
 
 						</form>
 
-						<!--<form method="post" action="#" name="playlistForm">
-							<button type="submit" name="${_csrf.parameterName}" value="${_csrf.token}">Add</button>
-							<select name="playlist">
+						<form method="post" id="playlistForm">
+							  <button onCLick="add()" id="add" name="${_csrf.parameterName}" value="${_csrf.token}">Add</button>
+							<select id="dropdown" name="dropdown">
 								<c:forEach items="${playlists}" var="playlist">
 									<option value="playlist=${playlist.name}&id=${post.track.id}">${playlist.name}</option>
 								</c:forEach>
 							</select>
-						</form>-->
+						</form>
+					
 					</div>
 					<div class="panel-body">
 						<b>Artist:</b>${post.track.artist}<br>

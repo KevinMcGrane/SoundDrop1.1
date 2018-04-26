@@ -19,6 +19,7 @@ public interface UserService {
 	public void removeFriends(User user1, User user2);
 	public User find(User user);
 	public List<User> findAll();
+	boolean isUserFollowedBy(User userMe, String username);
 	
 
 }

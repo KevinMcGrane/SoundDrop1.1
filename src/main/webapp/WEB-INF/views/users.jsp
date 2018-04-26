@@ -43,13 +43,13 @@
 
 		<div class="row main">
 			<div class="col-lg-3 description">
-				<h1>Sound Drop</h1>
-				<p class="lead">Welcome!</p>
+				
+				
 			</div>
 
 			<div class="col-lg-6">
 				<div id="logbox">
-					<h2>User list</h2>
+					<h2><b>Search Results</b></h2>
 					<div class="panel-group">
 						<c:forEach items="${friends}" var="user">
 							<div class="panel panel-default">

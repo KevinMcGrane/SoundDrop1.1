@@ -70,6 +70,12 @@
 				
 				</c:when>
 				<c:otherwise>
+				<c:if test="${currentUser.outgoingFriendRequests.contains(user)}">
+						<form:form action="${contextPath}/user/${user.username}/friendrequests/cancel" method="post">
+							<button name="${_csrf.parameterName}" value="${_csrf.token}"
+								type="submit" class="btn btn-reject-profile">Cancel</button>
+						</form:form>
+					</c:if>
 					<c:if
 						test="${!currentUser.incomingFriendRequests.contains(user) && !currentUser.outgoingFriendRequests.contains(user) && !currentUser.friends.contains(user)}">
 						<form action=${contextPath}/user/${user.username}/friendrequests
@@ -91,12 +97,7 @@
 								type="submit" class="btn btn-reject-profile">Reject</button>
 						</form:form>
 					</c:if>
-					<c:if test="${currentUser.outgoingFriendRequests.contains(user)}">
-						<form:form action="${contextPath}/user/${user.username}/friendrequests/cancel" method="post">
-							<button name="${_csrf.parameterName}" value="${_csrf.token}"
-								type="submit" class="btn btn-reject-profile">Cancel</button>
-						</form:form>
-					</c:if>
+					
 					<c:if test="${currentUser.friends.contains(user)}">
 						<form action="${contextPath}/user/${user.username}/remove" method="post">
 							<button name="${_csrf.parameterName}" value="${_csrf.token}"

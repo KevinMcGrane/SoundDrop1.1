@@ -49,17 +49,20 @@ public class LibraryController {
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();
+		int i = 1;
 		try
 		{
 		    JSONArray jArray = new JSONArray();
 		    for (Track track : trackList)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
+		         trackJSON.put("track", i);
 		         trackJSON.put("name", track.getTrackName());
+		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("length", "0.00");
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
+		         i++;
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);
@@ -67,23 +70,7 @@ public class LibraryController {
 		} catch (JSONException jse) {
 		    jse.printStackTrace();
 		}		
-		try
-		{
-		    JSONArray jArray = new JSONArray();
-		    for (Track track : trackList)
-		    {
-		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
-		         trackJSON.put("name", track.getTrackName());
-		         trackJSON.put("length", "0.00");
-		         trackJSON.put("file", track.getFileName());
-		         jArray.put(trackJSON);
-		    }
-		    jObject.put("tracks", jArray);
-		    model.addAttribute("tracks", jArray);
-		} catch (JSONException jse) {
-		    jse.printStackTrace();
-		}
+		
 		List<Track> recommendedTracks = trackService.recommend(currentUser.getId());
 		model.addAttribute("recommendedTracks", recommendedTracks);
 		model.addAttribute("count", incomingRequestsCount);
@@ -105,17 +92,19 @@ public class LibraryController {
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();
+		int i =1;
 		try
 		{
 		    JSONArray jArray = new JSONArray();
 		    for (Track track : playlist)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", track.getId());
+		         trackJSON.put("track", i);
 		         trackJSON.put("name", track.getTrackName());
 		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
 		         jArray.put(trackJSON);
+		         i++;
 		    }
 		    jObject.put("tracks", jArray);
 		    model.addAttribute("tracks", jArray);
