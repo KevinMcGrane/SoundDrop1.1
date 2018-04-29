@@ -381,6 +381,7 @@ public class UserController {
 		
 		
 		return "redirect:/welcome";
+		
 	}
 	
 	
