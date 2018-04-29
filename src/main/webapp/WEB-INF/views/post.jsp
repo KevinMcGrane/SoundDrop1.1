@@ -94,15 +94,19 @@ window.onload = function ()
 
 </script>
 <script>
-function add() {
-       
-       $.ajax({ // create an AJAX call...
-           data: $(this).serialize(), // get the form data
-           
-           url: $(this).attr('http://localhost:8080/track/addtoplaylist?' + data), // the file to call
-           xmlhttp.open("POST",url,true);
-       });
-       return false; // cancel original event to prevent form submitting
+$(document).ready(function($) {
+    $("#playlists").change(function() {
+        var playlist = $(this).val();
+        $.ajax({
+            url: "http://localhost:8080/track/addtoplaylist",
+            method: "post",
+            data: playlist,
+            success: function(playlist){
+            	xhttp.open("POST", "http://localhost:8080/track/addtoplaylist", true);
+            	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            	xhttp.send(playlist);
+            }
+        })
     });
 });
 </script>
@@ -159,14 +163,20 @@ function add() {
 
 
 						</form>
-
-						<form method="post" id="playlistForm">
-							  <button onCLick="add()" id="add" name="${_csrf.parameterName}" value="${_csrf.token}">Add</button>
-							<select id="dropdown" name="dropdown">
-								<c:forEach items="${playlists}" var="playlist">
+				<div id="dropdown"><div class="dropdown">
+  <button class="dropdown-toggle" type="button" data-toggle="dropdown">Add to playlist
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+  <c:forEach items="${playlists}" var="playlist"><li><a href="${contextPath}/track/${post.track.id}/addtoplaylist/${playlist.name}">${playlist.name}</a></li> </c:forEach>
+  </ul>
+</div>     </div>
+						
+						
+						<form action="" method="post">
+						<select name="playlists" id="playlists">
+						<c:forEach items="${playlists}" var="playlist">
 									<option value="playlist=${playlist.name}&id=${post.track.id}">${playlist.name}</option>
-								</c:forEach>
-							</select>
+								</c:forEach></select>
 						</form>
 					
 					</div>

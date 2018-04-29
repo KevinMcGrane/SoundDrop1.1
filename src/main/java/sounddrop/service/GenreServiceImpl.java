@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sounddrop.model.Genre;
-import sounddrop.model.User;
 import sounddrop.repository.GenreRepository;
 
 @Service

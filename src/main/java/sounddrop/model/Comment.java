@@ -1,7 +1,6 @@
 package sounddrop.model;
 
-import java.sql.Time;
-import java.util.Comparator;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -18,9 +17,7 @@ import javax.persistence.Table;
 public class Comment {
 
 	
-	private long commentId;
-
-
+	private Long commentId;
 
 	private String content;
 	
@@ -43,14 +40,33 @@ public class Comment {
 		this.user = user;
 	}
 
+	@Override
+	public int hashCode() {
+		
+		return commentId.hashCode();
+	}  
+
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
+
+	    Comment comment = (Comment) o;
+
+	    return commentId.equals(comment.commentId);
+	  }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long getCommentId() {
+	public Long getCommentId() {
 		return commentId;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public void setCommentId(long commentId) {
+	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
 	public String getContent() {

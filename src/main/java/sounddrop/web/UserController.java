@@ -29,7 +29,6 @@ import sounddrop.model.Rating;
 import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.CommentService;
-import sounddrop.service.GenreService;
 import sounddrop.service.PlaylistService;
 import sounddrop.service.PostService;
 import sounddrop.service.PostTextService;
@@ -57,8 +56,6 @@ public class UserController {
 	@Autowired
 	private UserValidator userValidator;
 
-	@Autowired
-	private GenreService genreService;
 
 	@Autowired
 	private CommentService commentService;
@@ -107,7 +104,7 @@ public class UserController {
 		User currentUser = userService.findByUsername(principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = currentUser.getTracks();
+		Set<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 				JSONObject jObject = new JSONObject();
 				int i = 1;
@@ -117,7 +114,7 @@ public class UserController {
 		    for (Track track : trackList)
 		    {
 		         JSONObject trackJSON = new JSONObject();
-		         trackJSON.put("track", i);
+		         trackJSON.put("track",i);
 		         trackJSON.put("name", track.getTrackName());
 		         trackJSON.put("artist", track.getArtist());
 		         trackJSON.put("file", track.getFileName());
@@ -129,17 +126,12 @@ public class UserController {
 		} catch (JSONException jse) {
 		    jse.printStackTrace();
 		}
+		
+		
 		List<Post> userFeed = postService.getFeed(friends, currentUser);
 
-//		Post post = postService.findById((long) 1);
-//		System.out.println("iiiiiiiiiiiiiiiiiiiiiiiiiii"+post.getTrack().getComments().size());
-//		for (Comment c : post.getTrack().getComments()) {
-//			System.out.println("Content: "+ c.getContent());
-//		}
-//		Track track = trackService.findByTrackId(1);
-//		for (Comment c : track.getComments()) {
-//			System.out.println("Content: "+ c.getContent());
-//		}
+		
+		model.addAttribute("playlist", currentUser.getPlaylist());
 		model.addAttribute("userFeed", userFeed);
 		model.addAttribute("tracklist", trackList);
 		model.addAttribute("count", incomingRequestsCount);
@@ -157,8 +149,8 @@ public class UserController {
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		Playlist playlist1 = playlistService.findByName(playlistName);
-		List<Track> playlist = playlist1.getTracks();
-		List<Track> trackList = trackService.findByUser(currentUser);
+		Set<Track> playlist = playlist1.getTracks();
+		Set<Track> trackList = trackService.findByUser(currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		JSONObject jObject = new JSONObject();
 		int i = 1;
@@ -191,6 +183,8 @@ public class UserController {
 		model.addAttribute("postTextForm", new PostText());	
 		model.addAttribute("friends", friends);
 		model.addAttribute("currentUser", currentUser);
+		
+		
 		return "welcome";
 	}
 	
@@ -224,7 +218,7 @@ public class UserController {
 		model.addAttribute("commentCount", commentsCount);
 		model.addAttribute("postText", postText);
 		model.addAttribute("commentForm", new Comment());
-		List<Comment> comments = postText.getComments();
+		Set<Comment> comments = postText.getComments();
 		model.addAttribute("comments", comments);
 		return "comments";
 	}
@@ -240,7 +234,7 @@ public class UserController {
 		String name = principal.getName();
 		User user = userService.findByUsername(name);
 		commentService.save(commentForm, user, postText);
-		postTextService.update(postText, name);
+		//postTextService.update(postText);
 		return "redirect:/comment/{postTextId}";
 	}
 
@@ -273,7 +267,6 @@ public class UserController {
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String users(@RequestParam("searchString") String searchString, Model model, Principal principal) {
-		List<User> userList = userService.findAll();
 		User currentUser = userService.findByUsername(principal.getName());
 		List<User> allList = userService.findAll();
 		List<User> searchList = new ArrayList<>();
@@ -292,7 +285,6 @@ public class UserController {
 		}
 
 
-		String name = principal.getName();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		model.addAttribute("friends", searchListFriends);
 		model.addAttribute("other", searchListOther);
@@ -322,15 +314,7 @@ public class UserController {
 		
 		List<Post> userFeed = postService.findByUser(user);
 		User currentUser = userService.findByUsername(name);
-		Set<User> of = currentUser.getOutgoingFriendRequests();
-		if (of.contains(user)) {
-			System.out.println("true");
-		}else {
-			System.out.println(("false"));
-		}
-		for (User u : of) {
-			System.out.println(u.getUsername());
-		}
+		
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
 		model.addAttribute("user", user);
 		model.addAttribute("userFeed", userFeed);
@@ -344,45 +328,14 @@ public class UserController {
 		}
 	}
 
-	// @RequestMapping(value="user/add/{username}", method=RequestMethod.GET)
-	// public String addFollower(@PathVariable String username, Model model,
-	// Principal principal) {
-	// User userToFollow = userService.findByUsername(username);
-	// String name = principal.getName();
-	// User currentUser = userService.findByUsername(name);
-	// userService.addFriendToFollow(currentUser, userToFollow);
-	//
-	// return "redirect:/user/" + username;
-	// }
-
-	// @RequestMapping(value = "/following")
-	// public String showFollowing(Model model) {
-	//
-	// List<User> followingList = userService.getUsersIFollow();
-	// model.addAttribute("following", followingList);
-	//
-	// return "users";
-	// }
-
-//	@RequestMapping(value = { "/friendssearch" }, method = RequestMethod.GET)
-//	public String findFriends(@RequestParam("searchTerm") String searchTerm, Model model, Principal principal) {
-//		List<User> userList = userService.findFriends(searchTerm);
-//		String name = principal.getName();
-//		User currentUser = userService.findByUsername(name);
-//		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-//		model.addAttribute("count", incomingRequestsCount);
-//		model.addAttribute("userList", userList);
-//		return "users";
-//	}
-//	
 	@RequestMapping(value = "playlist/{playlistName}", method = RequestMethod.GET)
 	public String playlist(@PathVariable String playlistName, Model model, Principal principal) {
 		String username = principal.getName();
 		User currentUser = userService.findByUsername(username);
 		model.addAttribute("currentUser", currentUser);
 		Playlist playlist1 = playlistService.findByName(playlistName);
-		List<Track> playlist = playlist1.getTracks();
-		List<Track> trackList = trackService.findByUser(currentUser);
+		Set<Track> playlist = playlist1.getTracks();
+		Set<Track> trackList = trackService.findByUser(currentUser);
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		JSONObject jObject = new JSONObject();
 		int i = 1;
@@ -416,7 +369,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = { "/rate" }, method = RequestMethod.GET)
-	public String findFriends(@RequestParam(value="rating") float value,@RequestParam(value="id") Long id, Model model, Principal principal) {
+	public String rate(@RequestParam(value="rating") float value,@RequestParam(value="id") Long id, Model model, Principal principal) {
 		String name = principal.getName();
 		User currentUser = userService.findByUsername(name);
 		Track track = trackService.findByTrackId(id);
@@ -430,19 +383,7 @@ public class UserController {
 		return "redirect:/welcome";
 	}
 	
-	@RequestMapping(value = { "/test" }, method = RequestMethod.GET)
-	public String test(Model model, Principal principal) {
-		String name = principal.getName();
-		User currentUser = userService.findByUsername(name);
-		//Track track = trackService.findByTrackId(id);
-		Rating rating = new Rating();
-		//rating.setTrack(track);
-		rating.setUser(currentUser);
-		ratingService.save(rating);
-		
-		
-		return "testjsp";
-	}
+	
 }
 
 

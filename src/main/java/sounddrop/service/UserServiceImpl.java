@@ -1,8 +1,6 @@
 package sounddrop.service;
 
-import sounddrop.model.Post;
-import sounddrop.model.PostText;
-import sounddrop.model.Track;
+
 import sounddrop.model.User;
 import sounddrop.repository.PostTextRepository;
 import sounddrop.repository.RoleRepository;
@@ -10,18 +8,12 @@ import sounddrop.repository.TrackRepository;
 import sounddrop.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,10 +23,6 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private PostTextRepository postTextRepository;
-    @Autowired
-    private TrackRepository trackRepository;
     @Autowired
     TrackService trackService;
     @Autowired
@@ -65,6 +53,7 @@ public class UserServiceImpl implements UserService {
         user.setProfilePic(user.getProfilePic());
         user.setComments(user.getComments());
         user.setPost(user.getPost());
+        user.setTracks(user.getTracks());
         userRepository.save(user);
     }
 
@@ -132,8 +121,7 @@ public class UserServiceImpl implements UserService {
     //Cancel friend request
 	@Override
 	public void removeFriendRequests(User user1, User user2) {
-	    user1 = find(user1);
-	    user2 = find(user2);
+
 
 	    user1.getOutgoingFriendRequests().remove(user2);
 	    user2.getIncomingFriendRequests().remove(user1);

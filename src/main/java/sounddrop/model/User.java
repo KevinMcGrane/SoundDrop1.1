@@ -6,7 +6,6 @@ import javax.persistence.*;
 import sounddrop.model.PostText;
 
 import java.util.Set;
-import java.util.HashSet;
 import java.util.List;
 
 
@@ -22,10 +21,10 @@ public class User {
 	private Set<Role> roles;
     private List<PostText> postTexts;
     private String bio;
-    private List<Track> tracks;
+    private Set<Track> tracks;
     private List<Playlist> playlist;
     private ProfilePic profilePic;
-    private List<Comment> comments;
+    private Set<Comment> comments;
     private List<Post> post;
 
     private List<Rating> rating;
@@ -34,8 +33,26 @@ public class User {
 	private Set<User> incomingFriendRequests;
 	private Set<User> outgoingFriendRequests;
 	
+	@Override
+	public int hashCode() {
+		
+		return id.hashCode();
+	}  
 
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
 
+	    User user = (User) o;
+
+	    return id.equals(user.id);
+	  }
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
@@ -108,11 +125,11 @@ public class User {
 	}
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 	
@@ -134,11 +151,11 @@ public class User {
 	}
 	
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    public List<Track> getTracks() {
+    public Set<Track> getTracks() {
 		return tracks;
 	}
 
-	public void setTracks(List<Track> tracks) {
+	public void setTracks(Set<Track> tracks) {
 		this.tracks = tracks;
 	}
 	
@@ -213,19 +230,7 @@ public class User {
 		return this.getFriends().contains(person);
 	}
     
-	@Override
-	  public boolean equals(Object o) {
-	    if (this == o) {
-	      return true;
-	    }
-	    if (o == null || getClass() != o.getClass()) {
-	      return false;
-	    }
-
-	    User user = (User) o;
-
-	    return id.equals(user.id);
-	  }
+	
 
 	
 	 

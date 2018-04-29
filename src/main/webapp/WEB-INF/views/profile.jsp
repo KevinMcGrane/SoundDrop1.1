@@ -99,7 +99,7 @@
 					</c:if>
 					
 					<c:if test="${currentUser.friends.contains(user)}">
-						<form action="${contextPath}/user/${user.username}/remove" method="post">
+						<form action="${contextPath}/user/${user.username}/remove/${user.id}" method="post">
 							<button name="${_csrf.parameterName}" value="${_csrf.token}"
 								type="submit" class="btn btn-danger btn-sm">Remove Friend</button>
 						</form>

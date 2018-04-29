@@ -1,7 +1,6 @@
 package sounddrop.web;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import sounddrop.model.Playlist;
 import sounddrop.model.Track;
@@ -44,11 +42,14 @@ public class LibraryController {
 		User currentUser = userService.findByUsername(principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = currentUser.getTracks();
+		Set<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();
+		for (Track t : currentUser.getTracks()) {
+			System.out.println(t.getTrackName());
+		}
 		int i = 1;
 		try
 		{
@@ -85,10 +86,10 @@ public class LibraryController {
 		User currentUser = userService.findByUsername(principal.getName());
 		Set<User> friends = currentUser.getFriends();
 		int incomingRequestsCount = currentUser.getIncomingFriendRequests().size();
-		List<Track> trackList = currentUser.getTracks();
+		Set<Track> trackList = currentUser.getTracks();
 		List<Playlist> playlists = playlistService.findByUser(currentUser);
 		Playlist playlist1 = playlistService.findByName(playlistName);
-		List<Track> playlist = playlist1.getTracks();
+		Set<Track> playlist = playlist1.getTracks();
 		model.addAttribute("playlists", playlists);
 		model.addAttribute("tracklist", trackList);
 		JSONObject jObject = new JSONObject();

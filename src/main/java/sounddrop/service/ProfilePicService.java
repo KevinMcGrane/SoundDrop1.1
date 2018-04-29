@@ -1,6 +1,8 @@
 package sounddrop.service;
 
+import sounddrop.model.User;
+
 public interface ProfilePicService {
 
-	void save(String name, String fileName);
+	void save(User u, String fileName);
 }

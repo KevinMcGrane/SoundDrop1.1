@@ -1,7 +1,7 @@
 package sounddrop.web;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,14 +60,10 @@ public class TrackController {
 	    public String addTrack(@RequestParam("track") String trackName, @RequestParam("genre") String genreName, @RequestParam("artist") String artist, @RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
 	        
 	        String name = principal.getName(); 
-	        System.out.println(genreName);
-			System.out.println(genreService.findByName("Techno").getName());
-			System.out.println(genreService.findByName(genreName).getName());
+		
 
 	        Genre genre = genreService.findByName(genreName);
-	        if (genre.getName().equals("Techno")) {
-	        	System.out.println("True");
-	        }
+	      
 	        this.amazonClient.uploadFile(file, trackName, name, artist, genre);
 	        
 	        return "redirect:/welcome";
@@ -87,11 +83,9 @@ public class TrackController {
 			model.addAttribute("commentCount", commentsCount);
 			model.addAttribute("track", track);
 			model.addAttribute("commentForm", new Comment());
-			List<Comment> comments = track.getComments();
+			Set<Comment> comments = track.getComments();
 			model.addAttribute("comments", comments);
-			for (Comment c : comments) {
-				System.out.println(c.getContent());
-			}
+			
 			return "trackComments";
 		}
 	  
@@ -106,7 +100,7 @@ public class TrackController {
 			String name = principal.getName();
 			User user = userService.findByUsername(name);
 			commentService.saveTrackComment(commentForm, user, track);
-			trackService.update(track.getId());
+			//trackService.update(track);
 			return "redirect:/track/comment/{trackId}";
 		}
 	  
@@ -114,6 +108,18 @@ public class TrackController {
 	  public String addToPlaylist(@RequestParam(value="playlist") String playlistName,@RequestParam(value="id") Long trackId,
 				BindingResult bindingResult, Model model,
 				Principal principal) {
+		  Playlist pl = playlistService.findByName(playlistName);
+		  Track track = trackService.findByTrackId(trackId);
+		  User user = userService.findByUsername(principal.getName());
+		  trackService.addTrackToPlaylist(track, pl, user);
+		  return "redirect:/welcome/{playlistName}";
+		 
+	  }
+	  
+	  @RequestMapping(value="/{trackId}/addtoplaylist/{playlistName}", method=RequestMethod.GET)
+	  public String addToPlaylists(@PathVariable(value="playlistName") String playlistName,@PathVariable(value="trackId") long trackId, Model model,
+				Principal principal) {
+		 
 		  Playlist pl = playlistService.findByName(playlistName);
 		  Track track = trackService.findByTrackId(trackId);
 		  User user = userService.findByUsername(principal.getName());

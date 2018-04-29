@@ -16,9 +16,9 @@ public interface TrackService {
 	//public List<Track> getTrackFeed(Set<User> friends, User user);
 	public void delete(Track track);
 	public Track findByTrackId(long id);
-	public void update(long id);
+	public void update(Track track);
 	public List<Track> recommend(long userId) throws TasteException;
-	public List<Track> findByUser(User user);
+	public Set<Track> findByUser(User user);
 	void addTrackToPlaylist(Track track, Playlist pl, User user);
 
 }

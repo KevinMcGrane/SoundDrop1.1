@@ -20,6 +20,25 @@ public class Post {
 	private boolean typeTrack;
 	private User user;
 	
+	@Override
+	public int hashCode() {
+		
+		return id.hashCode();
+	}  
+
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
+
+	    Post post = (Post) o;
+
+	    return id.equals(post.id);
+	  }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {

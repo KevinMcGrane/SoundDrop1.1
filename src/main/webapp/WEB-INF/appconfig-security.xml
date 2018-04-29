@@ -8,12 +8,22 @@
 
 	<http auto-config="true">
 		<intercept-url pattern="/" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/friends" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/settings" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/track/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="track" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/library" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/account" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/search" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/rate" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/comment/**" access="hasRole('ROLE_USER')" />
+				<intercept-url pattern="/search**" access="hasRole('ROLE_USER')" />
+				
 		<intercept-url pattern="/welcome**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/users**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/storage**" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/storage/**" access="hasRole('ROLE_USER')" />
 
 		<form-login login-page="/registration" default-target-url="/welcome"
 			authentication-failure-url="/registration?error" username-parameter="username"

@@ -2,8 +2,6 @@ package sounddrop.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -42,8 +40,7 @@ public class TrackServiceImpl implements TrackService {
 	@Autowired
 	private PostService postService;
 	
-	@Autowired
-	private PlaylistService playlistService;
+	
 	
 
 	//Save track details to mysql
@@ -58,6 +55,7 @@ public class TrackServiceImpl implements TrackService {
 		newTrack.setPublishTime(timestamp);
 		newTrack.setUser(user);
 		newTrack.setGenre(genre);
+		newTrack.setPlaylists(new ArrayList<Playlist>());
 		trackRepository.save(newTrack);
 		postService.save(null, newTrack);
 		
@@ -71,24 +69,7 @@ public class TrackServiceImpl implements TrackService {
 		return trackList;
 	}
 
-	
-//	@Override
-//	public List<Track> getTrackFeed(Set<User> friends, User user) {
-//		List<Track> trackList = trackRepository.findByUserIn(friends);
-//		List<Track> myTracks = trackRepository.findByUser(user);
-//		List<Track> newList = new ArrayList<Track>();
-//    	newList.addAll(trackList);
-//    	newList.addAll(myTracks);
-//    	class OutcomeAscComparator implements Comparator<Track>
-//	    {
-//	        public int compare(Track left, Track right) {
-//	            return right.getPublishTime().compareTo(left.getPublishTime());
-//	        }
-//	    }
-//    	Collections.sort(newList, new OutcomeAscComparator());
-//
-//		return newList;
-//	}
+
 
 	//Delete track
 	@Override
@@ -105,23 +86,21 @@ public class TrackServiceImpl implements TrackService {
 	//Add a track to provided playlist
 	@Override
 	public void addTrackToPlaylist(Track track, Playlist pl, User user) {
-		pl.getTracks().add(track);
-		playlistService.save(pl, user);
+		track.getPlaylists().add(pl);
+		update(track);
 	}
 
 	//Update tack
 	@Override
-	public void update(long id) {
-		
-			Track track = findByTrackId(id);
+	public void update(Track track) {
 			track.setUser(track.getUser());
 			track.setArtist(track.getArtist());
 			track.setGenre(track.getGenre());
 			track.setComments(track.getComments());
+			track.setPlaylists(track.getPlaylists());
 			trackRepository.save(track);
 			Post post = postService.findByTrack(track);
 			postService.update(null, track, post);
-
 		
 	}
 	
@@ -144,7 +123,7 @@ public class TrackServiceImpl implements TrackService {
 		
 		UserBasedRecommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
 		int i = 1;
-		List<RecommendedItem> recommendations = recommender.recommend(userId, 3);
+		List<RecommendedItem> recommendations = recommender.recommend(userId, 15);
 		List<Track> recommendedTracks = new ArrayList<Track>();
 		for (RecommendedItem recommendation : recommendations) {
 			
@@ -157,7 +136,7 @@ public class TrackServiceImpl implements TrackService {
 	}
 	//Find track by user
 	@Override
-	public List<Track> findByUser(User user){
+	public Set<Track> findByUser(User user){
 		return trackRepository.findByUser(user);
 	}
 

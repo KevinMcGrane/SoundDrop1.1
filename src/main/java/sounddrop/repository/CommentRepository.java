@@ -1,6 +1,6 @@
 package sounddrop.repository;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,6 +9,6 @@ import sounddrop.model.PostText;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
 	
-	List<Comment> findByPostText(PostText postText);
+	Set<Comment> findByPostText(PostText postText);
 
 }

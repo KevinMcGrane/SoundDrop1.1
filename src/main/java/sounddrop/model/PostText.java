@@ -1,7 +1,7 @@
 package sounddrop.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class PostText {
 
 	
-	private long postTextId;
+	private Long postTextId;
 
 
 
@@ -30,7 +30,7 @@ public class PostText {
 	
 	private User user;
 	
-	private List<Comment> comments;
+	private Set<Comment> comments;
 	
 	private Post post;
 	
@@ -44,15 +44,35 @@ public class PostText {
 		this.publishTime = publishTime;
 		this.user = user;
 	}
+	
+	@Override
+	public int hashCode() {
+		
+		return postTextId.hashCode();
+	}  
+
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
+
+	    PostText postText = (PostText) o;
+
+	    return postTextId.equals(postText.postTextId);
+	  }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long getPostTextId() {
+	public Long getPostTextId() {
 		return postTextId;
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public void setPostTextId(long postTextId) {
+	public void setPostTextId(Long postTextId) {
 		this.postTextId = postTextId;
 	}
 	public String getContent() {
@@ -83,11 +103,11 @@ public class PostText {
 	}
 
 	@OneToMany(mappedBy = "postText", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	public List<Comment> getComments() {
+	public Set<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 

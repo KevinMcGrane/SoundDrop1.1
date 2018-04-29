@@ -135,11 +135,11 @@ window.onload = function ()
 										${track.user.lname}</a></b> posted:
 										<form action="#" method="get" name="ratingForm">
 							Rate this track: <input type="radio" name="rating"
-								value="1&id=${post.track.id}" /> 1 <input type="radio"
+								value="1&id=${track.id}" /> 1 <input type="radio"
 								name="rating" value="2&id=${post.track.id}" /> 2 <input
-								type="radio" name="rating" value="3&id=${post.track.id}" /> 3 <input
-								type="radio" name="rating" value="4&id=${post.track.id}" /> 4 <input
-								type="radio" name="rating" value="5&id=${post.track.id}" /> 5
+								type="radio" name="rating" value="3&id=${track.id}" /> 3 <input
+								type="radio" name="rating" value="4&id=${track.id}" /> 4 <input
+								type="radio" name="rating" value="5&id=${track.id}" /> 5
 
 
 						</form>

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sounddrop.model.ProfilePic;
-import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.repository.ProfilePicRepository;
 import sounddrop.repository.UserRepository;
@@ -25,9 +24,8 @@ public class ProfilePicServiceImpl implements ProfilePicService {
 	
 	//Save profile pic details to MySql
 	@Override
-	public void save(String name, String fileName) {
+	public void save(User user, String fileName) {
 		ProfilePic newPic = new ProfilePic();
-		User user = userRepository.findByUsername(name);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         newPic.setFileName(fileName);
         newPic.setPublishTime(timestamp);

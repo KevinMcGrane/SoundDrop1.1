@@ -33,34 +33,39 @@
 	<div class="container">
 
 		<div class="row main">
-			<div class="col-lg-3 description">
+			<div class="col-lg-2">
 				
 			</div>
-			<div class="col-lg-3">
+			
+			<div class="col-lg-4">
 				<div id="logbox">
 
 					<div class="panel-group">
+
 						<h3>
 							<b>Friends</b>
 						</h3>
-						<c:if test="${empty friends}">No friends</c:if>
+						<c:if test="${empty friends}">Your friend list is empty</c:if>
 						<c:forEach items="${friends}" var="user">
-
-							<div class="profile-userpic-friends">
-								<a href=${contextPath}/user/${user.username}>
-									<c:choose>
-				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive" style="width: 50px; height: 50px;"></c:when>
+							<div class="panel panel-default">
+								<div class="panel-body">
+												<div class="profile-userpic">
+												<a href=${contextPath}/user/${user.username}>
+					<c:choose>
+				<c:when test="${empty user.profilePic}"><img src="${contextPath}/resources/images/noprofile.png" class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:when>
 				<c:otherwise>	<img src="https://s3.eu-west-1.amazonaws.com/sounddrop-profilepic-bucket/${user.profilePic.fileName}"
-						class="img-responsive" style="width: 50px; height: 50px;"></c:otherwise>
+						class="img-responsive"  align="left" alt="" style="width:50px;height:50px;"></c:otherwise>
 						</c:choose></a>
-							</div>
-							<div class="profile-usertitle-friends">
-								<a href=${contextPath}/user/${user.username}> <b>${user.fname}
+				</div>
+				<div class="profile-usertitle">
+				<a href=${contextPath}/user/${user.username}>
+									<b>${user.fname}
 										${user.lname}</b></a>
+								</div>
+								</div>
 							</div>
-
-
 						</c:forEach>
+
 					</div>
 
 				</div>
@@ -75,6 +80,7 @@
 							<b>Incoming Requests</b>
 						</h3>
 						<c:if test="${empty requestList}">No incoming requests</c:if>
+						
 						<c:forEach items="${requestList}" var="user">
 
 							<div class="profile-usertitle-friends">

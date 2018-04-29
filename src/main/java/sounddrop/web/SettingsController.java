@@ -1,29 +1,22 @@
 package sounddrop.web;
 
-import sounddrop.model.PostText;
+import sounddrop.model.Track;
 import sounddrop.model.User;
 import sounddrop.service.AmazonClient;
-import sounddrop.service.PostTextService;
-import sounddrop.service.SecurityService;
+
 import sounddrop.service.UserService;
-import sounddrop.validator.UserValidator;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +44,7 @@ public class SettingsController {
     	model.addAttribute("count", incomingRequestsCount);
 		model.addAttribute("user", currentUser);
 		model.addAttribute("bioSettings", new BioSettings());
+		
 		return "settings";
 	}
 
@@ -63,7 +57,9 @@ public class SettingsController {
 		user.setLname(bioSettings.getLname());
 		userService.update(user);
 		model.addAttribute("user", user);
-
+		for (Track t : user.getTracks()) {
+			System.out.println(t.getTrackName());
+		}
 		return "redirect:/settings?bio_success";
 	}
 
@@ -71,8 +67,22 @@ public class SettingsController {
 	    public String addProfilePic(@RequestPart(value = "file") MultipartFile file, Model model, Principal principal) {
 	        
 	        String name = principal.getName(); 
-	        this.amazonClient.uploadPic(file, name);
+	        User user = userService.findByUsername(name);
 	        
+	       
+	        this.amazonClient.uploadPic(file, user);
+	        for (Track t : user.getTracks())
+		       {
+		    	   System.out.println(t.getTrackName());
+		       }
+	        User user2 = userService.findByUsername(name);
+	        user2.getId();
+	        for (Track t : user2.getTracks())
+		       {
+		    	   System.out.println(t.getTrackName());
+		       }
+	        System.out.println(user.getId());
+	        System.out.println(user2.getId());
 	        return "redirect:/settings?bio_success";
 	    }
 	  

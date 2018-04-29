@@ -1,8 +1,8 @@
 package sounddrop.model;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ public class Track {
 	private String artist;
 	private Date publishTime;
 	private List<Playlist> playlists;
-	private List<Comment> comments;
+	private Set<Comment> comments;
 	private List<Rating> rating;
 	private Post post;
 
@@ -41,6 +41,25 @@ public class Track {
 	 * super(); this.name = name; this.track = track; this.publishTime =
 	 * publishTime; this.user = user; }
 	 */
+	@Override
+	public int hashCode() {
+		
+		return id.hashCode();
+	}  
+
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
+
+	    Track track = (Track) o;
+
+	    return id.equals(track.id);
+	  }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -106,15 +125,15 @@ public class Track {
 	}
 
 	@OneToMany(mappedBy = "track", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	public List<Comment> getComments() {
+	public Set<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "track_playlist", joinColumns = @JoinColumn(name = "playlist_id"), inverseJoinColumns = @JoinColumn(name = "track_id"))
 	public List<Playlist> getPlaylists() {
 		return playlists;

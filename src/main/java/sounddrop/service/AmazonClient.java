@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.sound.sampled.AudioFormat;
@@ -21,13 +20,13 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import sounddrop.model.Genre;
+import sounddrop.model.User;
 
 @Service
 public class AmazonClient {
@@ -36,9 +35,6 @@ public class AmazonClient {
     
     @Autowired
 	private TrackService trackService;
-    
-    @Autowired
-    private GenreService genreService;
     
     @Autowired
     private ProfilePicService picService;
@@ -73,7 +69,6 @@ public class AmazonClient {
 	        long frames = audioInputStream.getFrameLength();
 	        double durationInSeconds = (frames+0.0) / format.getFrameRate();  
             String fileName = generateFileName(multipartFile);
-            System.out.println(fileName);
             fileUrl = endpointUrl + "/" + trackBucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
             file.delete();
@@ -86,16 +81,15 @@ public class AmazonClient {
         return fileUrl;
     }
     
-    public String uploadPic(MultipartFile multipartFile, String name) {
+    public String uploadPic(MultipartFile multipartFile, User user) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
-            System.out.println(fileName);
             fileUrl = endpointUrl + "/" + picBucketName + "/" + fileName;
             uploadPicTos3bucket(fileName, file);
             file.delete();       
-            picService.save(name, fileName);
+            picService.save(user, fileName);
             
         } catch (Exception e) {
            e.printStackTrace();

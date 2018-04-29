@@ -1,6 +1,6 @@
 package sounddrop.model;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -19,8 +18,27 @@ public class Playlist {
 	private Long id;
 	private String name;
 	private User user;
-	private List<Track> tracks;
+	private Set<Track> tracks;
 
+	@Override
+	public int hashCode() {
+		
+		return id.hashCode();
+	}  
+
+	@Override
+	  public boolean equals(Object o) {
+	    if (this == o) {
+	      return true;
+	    }
+	    if (o == null || getClass() != o.getClass()) {
+	      return false;
+	    }
+
+	    Playlist playlist = (Playlist) o;
+
+	    return id.equals(playlist.id);
+	  }
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -51,11 +69,11 @@ public class Playlist {
 	}
 
 	@ManyToMany(mappedBy = "playlists", fetch = FetchType.EAGER)
-	public List<Track> getTracks() {
+	public Set<Track> getTracks() {
 		return tracks;
 	}
 
-	public void setTracks(List<Track> tracks) {
+	public void setTracks(Set<Track> tracks) {
 		this.tracks = tracks;
 	}
 
