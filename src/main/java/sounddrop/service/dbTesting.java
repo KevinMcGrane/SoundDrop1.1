@@ -135,9 +135,54 @@ public class dbTesting {
 		user5.setPassword(bCryptPasswordEncoder.encode(password2));
 		user5.setFname("John");
 		user5.setLname("Bloggs");
-		user5.setBio("Hi there!")	;	
+		user5.setBio("Hi there!");	
 		user5.setRoles(roles);
 		userRepository.save(user5);	
+		
+		User user6 = new User();
+		user6.setUsername("user6");
+		user6.setPassword(bCryptPasswordEncoder.encode(password2));
+		user6.setFname("Stephen");
+		user6.setLname("Smith");
+		user6.setBio("Love house music!");	
+		user6.setRoles(roles);
+		userRepository.save(user6);	
+		
+		User user7 = new User();
+		user7.setUsername("user7");
+		user7.setPassword(bCryptPasswordEncoder.encode(password2));
+		user7.setFname("Mo");
+		user7.setLname("Salah");
+		user7.setBio("The Egyptian Messi!");	
+		user7.setRoles(roles);
+		userRepository.save(user7);	
+		
+		User user8 = new User();
+		user8.setUsername("user8");
+		user8.setPassword(bCryptPasswordEncoder.encode(password2));
+		user8.setFname("Homer");
+		user8.setLname("Simpson");
+		user8.setBio("DOH!");	
+		user8.setRoles(roles);
+		userRepository.save(user8);	
+		
+		User user9 = new User();
+		user9.setUsername("user9");
+		user9.setPassword(bCryptPasswordEncoder.encode(password2));
+		user9.setFname("Donald");
+		user9.setLname("Trump");
+		user9.setBio("Make America Great!");	
+		user9.setRoles(roles);
+		userRepository.save(user9);	
+		
+		User user10 = new User();
+		user10.setUsername("user10");
+		user10.setPassword(bCryptPasswordEncoder.encode(password2));
+		user10.setFname("Phil");
+		user10.setLname("Smith");
+		user10.setBio("Hi!");	
+		user10.setRoles(roles);
+		userRepository.save(user10);	
 		
 		PostText postText = new PostText();
 		postText.setContent("Hi");
@@ -167,6 +212,22 @@ public class dbTesting {
 	    Genre genre3 = new Genre();
 	    genre3.setName("Trance");
 	    genreRepository.save(genre3);
+	    
+	    Genre genre4 = new Genre();
+	    genre4.setName("Acid House");
+	    genreRepository.save(genre4);
+	    
+	    Genre genre5 = new Genre();
+	    genre5.setName("Dubstep");
+	    genreRepository.save(genre5);
+	    
+	    Genre genre6 = new Genre();
+	    genre6.setName("Jungle");
+	    genreRepository.save(genre6);
+	    
+	    Genre genre7 = new Genre();
+	    genre7.setName("Drum and Bass");
+	    genreRepository.save(genre7);
 	    
 	    Playlist pl1 = new Playlist();
 	    pl1.setName("pl1");
@@ -323,22 +384,31 @@ public class dbTesting {
 	    trackRepository.save(track16);
 	    
 	    Track track17 = new Track();
-	    track17.setTrackName(("We do what we want"));
+	    track17.setTrackName(("The Bells"));
 	    track17.setGenre(genre1);
-	    track17.setArtist("Al Fitz");
+	    track17.setArtist("Jeff Mills");
 	    track17.setUser(user2);
 	    track17.setPublishTime(timestamp);
 	    track17.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track17);
 	    
 	    Track track18 = new Track();
-	    track18.setTrackName(("Sahsa"));
+	    track18.setTrackName(("Refractured"));
 	    track18.setGenre(genre1);
-	    track18.setArtist("Refactored");
+	    track18.setArtist("Sahsa");
 	    track18.setUser(user2);
 	    track18.setPublishTime(timestamp);
 	    track18.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
 	    trackRepository.save(track18);
+	    
+	    Track track19 = new Track();
+	    track19.setTrackName(("Lalala"));
+	    track19.setGenre(genre1);
+	    track19.setArtist("Kylie Minogue");
+	    track19.setUser(user2);
+	    track19.setPublishTime(timestamp);
+	    track19.setFileName("1521219951901-Denis_Sulta_-_It's_Only_Real.mp3");
+	    trackRepository.save(track19);
 	    
 	   
 	    

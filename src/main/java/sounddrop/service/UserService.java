@@ -1,7 +1,6 @@
 package sounddrop.service;
 
 import java.util.List;
-import java.util.Set;
 
 import sounddrop.model.User;
 
