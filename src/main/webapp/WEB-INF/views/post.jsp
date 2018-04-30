@@ -22,93 +22,111 @@
 </form>
 
 <script type="text/javascript">
- 
-function encodeValue(val)
-{
- var encodedVal;
- if (!encodeURIComponent)
- {
-   encodedVal = escape(val);
-   /* fix the omissions */
-   encodedVal = encodedVal.replace(/@/g, '%40');
-   encodedVal = encodedVal.replace(/\//g, '%2F');
-   encodedVal = encodedVal.replace(/\+/g, '%2B');
- }
- else
- {
-   encodedVal = encodeURIComponent(val);
-   /* fix the omissions */
-   encodedVal = encodedVal.replace(/~/g, '%7E');
-   encodedVal = encodedVal.replace(/!/g, '%21');
-   encodedVal = encodedVal.replace(/\(/g, '%28');
-   encodedVal = encodedVal.replace(/\)/g, '%29');
-   encodedVal = encodedVal.replace(/'/g, '%27');
- }
- /* clean up the spaces and return */
- return encodedVal.replace(/\%20/g,'+'); 
-}
- 
-function createXHR()
-{
-   try { return new XMLHttpRequest(); } catch(e) {}
-   try { return new ActiveXObject("Msxml2.XMLHTTP.6.0"); } catch (e) {}
-   try { return new ActiveXObject("Msxml2.XMLHTTP.3.0"); } catch (e) {}
-   try { return new ActiveXObject("Msxml2.XMLHTTP"); } catch (e) {}
-   try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch (e) {}
- 
-   return null;
-}
- 
-function sendRequest(url, payload)
-{
-    var xhr = createXHR();
- 
-    if (xhr)
-     {
-       xhr.open("GET",url + "?" + payload,true);
-       xhr.onreadystatechange = function(){handleResponse(xhr);};
-       xhr.send(null);
-     }
- 
-}
- 
+	function encodeValue(val) {
+		var encodedVal;
+		if (!encodeURIComponent) {
+			encodedVal = escape(val);
+			/* fix the omissions */
+			encodedVal = encodedVal.replace(/@/g, '%40');
+			encodedVal = encodedVal.replace(/\//g, '%2F');
+			encodedVal = encodedVal.replace(/\+/g, '%2B');
+		} else {
+			encodedVal = encodeURIComponent(val);
+			/* fix the omissions */
+			encodedVal = encodedVal.replace(/~/g, '%7E');
+			encodedVal = encodedVal.replace(/!/g, '%21');
+			encodedVal = encodedVal.replace(/\(/g, '%28');
+			encodedVal = encodedVal.replace(/\)/g, '%29');
+			encodedVal = encodedVal.replace(/'/g, '%27');
+		}
+		/* clean up the spaces and return */
+		return encodedVal.replace(/\%20/g, '+');
+	}
 
- 
- 
-function rate(rating)
-{
-    var url = "http://localhost:8080/rate";
-    var payload = "rating=" + rating;
-    payload += "&response=text";
-    sendRequest(url, payload);
-}
- 
-window.onload = function () 
-{ 
- var radios = document.getElementsByName('rating');
- for (var i = 0; i < radios.length; i++)
-  {
-   radios[i].onclick = function (){rate(this.value);}; 
-  }
-};
+	function createXHR() {
+		try {
+			return new XMLHttpRequest();
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Msxml2.XMLHTTP.6.0");
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+		}
+		try {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} catch (e) {
+		}
 
+		return null;
+	}
+
+	function sendRequest(url, payload) {
+		var xhr = createXHR();
+
+		if (xhr) {
+			xhr.open("GET", url + "?" + payload, true);
+			xhr.onreadystatechange = function() {
+				handleResponse(xhr);
+			};
+			xhr.send(null);
+		}
+
+	}
+
+	function rate(rating) {
+		var url = "http://localhost:8080/rate";
+		var payload = "rating=" + rating;
+		payload += "&response=text";
+		sendRequest(url, payload);
+	}
+
+	window.onload = function() {
+		var radios = document.getElementsByName('rating');
+		for (var i = 0; i < radios.length; i++) {
+			radios[i].onclick = function() {
+				rate(this.value);
+			};
+		}
+	};
 </script>
 <script>
-$(document).ready(function($) {
-    $("#playlists").change(function() {
-        var playlist = $(this).val();
-        $.ajax({
-            url: "http://localhost:8080/track/addtoplaylist",
-            method: "post",
-            data: playlist,
-            success: function(playlist){
-            	xhttp.open("POST", "http://localhost:8080/track/addtoplaylist", true);
-            	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            	xhttp.send(playlist);
-            }
-        })
-    });
-});
+	$(document)
+			.ready(
+					function($) {
+						$("#playlists")
+								.change(
+										function() {
+											var playlist = $(this).val();
+											$
+													.ajax({
+														url : "http://localhost:8080/track/addtoplaylist",
+														method : "post",
+														data : playlist,
+														success : function(
+																playlist) {
+															xhttp
+																	.open(
+																			"POST",
+																			"http://localhost:8080/track/addtoplaylist",
+																			true);
+															xhttp
+																	.setRequestHeader(
+																			"Content-type",
+																			"application/x-www-form-urlencoded");
+															xhttp
+																	.send(playlist);
+														}
+													})
+										});
+					});
 </script>
 </head>
 <body>
@@ -163,26 +181,27 @@ $(document).ready(function($) {
 
 
 						</form>
-				<div id="dropdown"><div class="dropdown">
-  <button class="dropdown-toggle" type="button" data-toggle="dropdown">Add to playlist
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-  <c:forEach items="${playlists}" var="playlist"><li><a href="${contextPath}/track/${post.track.id}/addtoplaylist/${playlist.name}">${playlist.name}</a></li> </c:forEach>
-  </ul>
-</div>     </div>
-						
-						
-						<form action="" method="post">
-						<select name="playlists" id="playlists">
-						<c:forEach items="${playlists}" var="playlist">
-									<option value="playlist=${playlist.name}&id=${post.track.id}">${playlist.name}</option>
-								</c:forEach></select>
-						</form>
-					
+						<div id="dropdown">
+							<div class="dropdown">
+								<button class="dropdown-toggle" type="button"
+									data-toggle="dropdown">
+									Add to playlist <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<c:forEach items="${playlists}" var="playlist">
+										<li><a
+											href="${contextPath}/track/${post.track.id}/addtoplaylist/${playlist.name}">${playlist.name}</a></li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+
+
+
+
 					</div>
 					<div class="panel-body">
-						<b>Artist:</b>${post.track.artist}<br>
-						<b>Name:</b>${post.track.trackName}<br>
+						<b>Artist:</b>${post.track.artist}<br> <b>Name:</b>${post.track.trackName}<br>
 						<b>Genre:</b>${post.track.genre.name}<br>
 						<div id="mainwrap">
 							<div id="nowPlay">

@@ -36,7 +36,7 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<form class="navbar-form navbar-left" method="get" action="${contextPath}/search">
 					<div class="form-group" role="search">
-						<input type="text" name="searchString" class="form-control" placeholder="Last Name">
+						<input type="text" name="searchString" class="form-control" placeholder="Search">
 					</div>
 					<button type="submit" class="btn btn-default">Search</button>
 				</form>
